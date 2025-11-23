@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 
 const LoadingSpinner = ({ size = 'md', message = 'Loading...', fullScreen = false }) => {
   const { darkMode } = useContext(ThemeContext);

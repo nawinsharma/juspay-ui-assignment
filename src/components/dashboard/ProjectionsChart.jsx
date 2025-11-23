@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 
 const ProjectionsChart = () => {
   const { darkMode } = useContext(ThemeContext);

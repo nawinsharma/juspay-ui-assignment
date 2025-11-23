@@ -1,23 +1,22 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import StatsCards from '../components/dashboard/StatsCards';
 import ProjectionsChart from '../components/dashboard/ProjectionsChart';
 import RevenueChart from '../components/dashboard/RevenueChart';
 import RevenueByLocation from '../components/dashboard/RevenueByLocation';
 import TopSellingProducts from '../components/dashboard/TopSellingProducts';
 import TotalSales from '../components/dashboard/TotalSales';
-import { ThemeContext } from '../context/ThemeContextProvider';
 import { useSearch } from '../context/SearchContext';
 import { X } from 'lucide-react';
 
-const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) => {
-  const { darkMode } = useContext(ThemeContext);
+const DashboardPage = ({ refreshKey = 0, isMobile = false }) => {
   const { shouldShowCard, hasActiveSearch, searchQuery, clearSearch, updateSearch } = useSearch();
 
-  const surfaceBg = darkMode ? '#1C1C1C' : '#ffffff';
-  const cardBg = darkMode ? '#282828' : 'var(--Primary-Light, #F7F9FB)';
-  const statsCardBg = darkMode ? '#282828' : '#ffffff';
-  const borderColor = darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.1)';
-  const textColor = darkMode ? '#FFFFFF' : '#111827';
+  // Use global CSS variables instead of theme context
+  const surfaceBg = 'var(--theme-bg)';
+  const cardBg = 'var(--theme-card-bg)';
+  const statsCardBg = 'var(--theme-surface)';
+  const borderColor = 'var(--theme-border)';
+  const textColor = 'var(--theme-text)';
 
   // Check if any cards should be shown
   const hasVisibleCards = shouldShowCard('Customers') || shouldShowCard('Orders') || 
@@ -45,9 +44,9 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
             <span 
               className="text-sm px-3 py-1 rounded-full flex items-center space-x-2"
               style={{ 
-                color: darkMode ? '#90caf9' : '#1976d2',
-                backgroundColor: darkMode ? 'rgba(144, 202, 249, 0.1)' : 'rgba(25, 118, 210, 0.1)',
-                border: `1px solid ${darkMode ? 'rgba(144, 202, 249, 0.2)' : 'rgba(25, 118, 210, 0.2)'}`
+                color: 'var(--theme-text)',
+                backgroundColor: 'var(--theme-hover)',
+                border: '1px solid var(--theme-border)'
               }}
             >
               <span>Searching: "{searchQuery}"</span>
@@ -73,7 +72,7 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
               style={{ 
                 background: statsCardBg,
                 border: 'none',
-                boxShadow: darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                boxShadow: 'var(--theme-shadow)',
                 transform: hasActiveSearch ? 'scale(1.01)' : 'scale(1)',
                 opacity: hasActiveSearch ? 0.98 : 1
               }}
@@ -91,7 +90,7 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
               style={{ 
                 background: cardBg, 
                 border: `1px solid ${borderColor}`,
-                boxShadow: darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                boxShadow: 'var(--theme-shadow)',
                 transform: hasActiveSearch ? 'scale(1.01)' : 'scale(1)',
                 opacity: hasActiveSearch ? 0.98 : 1
               }}
@@ -113,7 +112,7 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
               style={{ 
                 background: cardBg, 
                 border: `1px solid ${borderColor}`,
-                boxShadow: darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                boxShadow: 'var(--theme-shadow)',
                 transform: hasActiveSearch ? 'scale(1.01)' : 'scale(1)',
                 opacity: hasActiveSearch ? 0.98 : 1
               }}
@@ -131,7 +130,7 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
                 style={{ 
                   background: cardBg, 
                   border: `1px solid ${borderColor}`,
-                  boxShadow: darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                  boxShadow: 'var(--theme-shadow)',
                   transform: hasActiveSearch ? 'scale(1.01)' : 'scale(1)',
                   opacity: hasActiveSearch ? 0.98 : 1
                 }}
@@ -154,7 +153,7 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
               style={{ 
                 background: cardBg, 
                 border: `1px solid ${borderColor}`,
-                boxShadow: darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                boxShadow: 'var(--theme-shadow)',
                 transform: hasActiveSearch ? 'scale(1.01)' : 'scale(1)',
                 opacity: hasActiveSearch ? 0.98 : 1
               }}
@@ -172,7 +171,7 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
                 style={{ 
                   background: cardBg, 
                   border: `1px solid ${borderColor}`,
-                  boxShadow: darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                  boxShadow: 'var(--theme-shadow)',
                   transform: hasActiveSearch ? 'scale(1.01)' : 'scale(1)',
                   opacity: hasActiveSearch ? 0.98 : 1
                 }}
@@ -191,8 +190,8 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
         <div 
           className="text-center py-16 rounded-xl"
           style={{ 
-            backgroundColor: darkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
-            border: `1px dashed ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+            backgroundColor: 'var(--theme-hover)',
+            border: '1px dashed var(--theme-border)'
           }}
         >
           <div className="max-w-md mx-auto">
@@ -204,13 +203,13 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
             </div>
             <div 
               className="text-xl font-medium mb-3"
-              style={{ color: darkMode ? '#E5E7EB' : '#374151' }}
+              style={{ color: 'var(--theme-text)' }}
             >
               No cards found for "{searchQuery}"
             </div>
             <div 
               className="text-sm mb-6"
-              style={{ color: darkMode ? '#9CA3AF' : '#6B7280' }}
+              style={{ color: 'var(--theme-text-secondary)' }}
             >
               Try searching for one of these terms:
             </div>
@@ -220,9 +219,9 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
                   key={term}
                   className="px-3 py-2 rounded-full cursor-pointer transition-all hover:scale-105"
                   style={{ 
-                    backgroundColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                    color: darkMode ? '#E5E7EB' : '#374151',
-                    border: `1px solid ${darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'}`
+                    backgroundColor: 'var(--theme-hover)',
+                    color: 'var(--theme-text)',
+                    border: '1px solid var(--theme-border)'
                   }}
                   onClick={() => updateSearch(term)}
                 >
@@ -234,9 +233,9 @@ const DashboardPage = ({ refreshKey = 0, isMobile = false, isTablet = false }) =
               onClick={clearSearch}
               className="px-4 py-2 rounded-lg transition-colors"
               style={{
-                backgroundColor: darkMode ? '#1f2937' : '#f3f4f6',
-                color: darkMode ? '#e5e7eb' : '#374151',
-                border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                backgroundColor: 'var(--theme-hover)',
+                color: 'var(--theme-text)',
+                border: '1px solid var(--theme-border)'
               }}
             >
               Show all cards

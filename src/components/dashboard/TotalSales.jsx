@@ -1,6 +1,5 @@
-// TotalSales.js with SVG badge tooltip
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 import { createPortal } from 'react-dom';
 
 const pieData = [
@@ -9,8 +8,6 @@ const pieData = [
   { type: 'Sponsored', amount: 154.02 },
   { type: 'E-mail', amount: 48.96 }
 ];
-
-// Define colors to match the SVG segments
 const getColors = (darkMode) => [
   darkMode ? '#C6C7F8' : '#000000', // Direct - purple in dark mode, black in light mode
   '#95A4FC', // Affiliate - matches second SVG path

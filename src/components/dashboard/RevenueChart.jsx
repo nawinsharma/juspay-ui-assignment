@@ -1,6 +1,5 @@
-// src/components/dashboard/RevenueChart.js
 import React, { useContext, useRef } from 'react';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 
 const RevenueChart = ({ isMobile = false }) => {
   const { darkMode } = useContext(ThemeContext);
@@ -297,7 +296,7 @@ const RevenueChart = ({ isMobile = false }) => {
                 minWidth: isMobile ? '500px' : 'auto'
               }}
             >
-              {labels.map((label, index) => (
+              {labels.map((label) => (
                 <span 
                   key={label} 
                   className="text-xs"

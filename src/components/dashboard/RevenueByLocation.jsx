@@ -1,7 +1,6 @@
-// RevenueByLocation.js - Image-only approach (no Nivo Geo)
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { revenueByLocation } from '../../data/mockData';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { revenueByLocation } from '../../data/dashboardData';
+import { ThemeContext } from '../../context/ThemeProvider';
 import worldMapImage from '../../assets/images/world-map.png';
 
 const RevenueByLocation = ({ isMobile = false }) => {
@@ -17,14 +16,7 @@ const RevenueByLocation = ({ isMobile = false }) => {
     img.src = worldMapImage;
   }, []);
 
-  const formatShort = (val) => {
-    if (val == null) return '-';
-    if (Math.abs(val) >= 1000) return `${Math.round(val / 1000)}K`;
-    return `${val}`;
-  };
-
-  const maxRevenue = Math.max(...revenueByLocation.map((l) => l.amount), 1);
-
+  
   const getDarkerBackground = () => {
     if (darkMode) {
       return 'rgba(255, 255, 255, 0.08)';

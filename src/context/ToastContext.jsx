@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ToastContext } from './toastContext';
+import React, { createContext, useState, useEffect } from 'react';
+
+export const ToastContext = createContext();
 
 const Toast = ({ message, severity, onClose, duration }) => {
   useEffect(() => {

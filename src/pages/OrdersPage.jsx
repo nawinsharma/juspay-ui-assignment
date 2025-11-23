@@ -1,4 +1,3 @@
-// src/pages/OrdersPage.js - Fixed mobile search bar alignment
 import React, { useState, useMemo, useEffect, useContext } from "react";
 import {
   Avatar,
@@ -20,7 +19,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { ThemeContext } from "../context/ThemeContextProvider";
+import { ThemeContext } from "../context/ThemeProvider";
 import {
   Search,
   Add,
@@ -34,7 +33,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 
-// profile images
+import { orders } from "../data/dashboardData";
 import nataliCraig from "../assets/images/profiles/natali-craig.png";
 import drewCano from "../assets/images/profiles/drew-cano.png";
 import orlandoDiggs from "../assets/images/profiles/orlando-diggs.png";
@@ -42,7 +41,6 @@ import andiLane from "../assets/images/profiles/andi-lane.png";
 import kateMorrison from "../assets/images/profiles/kate-morrison.png";
 import korayOkumus from "../assets/images/profiles/koray-okumus.png";
 
-/* ---------- small custom sort icon ---------- */
 const ArrowDownUp = (props) => (
   <svg width={18} height={18} viewBox="0 0 24 24" fill="none" {...props} xmlns="http://www.w3.org/2000/svg">
     <path d="m21 16-4 4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -52,7 +50,6 @@ const ArrowDownUp = (props) => (
   </svg>
 );
 
-/* ---------- left pagination SVG (kept as-is) ---------- */
 const LeftPaginationSVG = ({ style }) => (
   <svg width="244" height="28" viewBox="0 0 244 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", ...style }}>
     {/* full paths kept as before - omitted for brevity in this snippet */}
@@ -60,7 +57,6 @@ const LeftPaginationSVG = ({ style }) => (
   </svg>
 );
 
-/* ---------- CustomPagination component ---------- */
 const CustomPagination = ({ totalPages, currentPage, onChange, themeMode }) => {
   const muiTheme = useMuiTheme();
   const isDark = themeMode === "dark";
@@ -158,15 +154,12 @@ const CustomPagination = ({ totalPages, currentPage, onChange, themeMode }) => {
   );
 };
 
-/* ---------- OrdersPage main component ---------- */
-const OrdersPage = ({ isMobile: propIsMobile, isTablet: propIsTablet }) => {
+const OrdersPage = ({ isMobile: propIsMobile }) => {
   const muiTheme = useMuiTheme();
   const { darkMode } = useContext(ThemeContext);
   const isMobileBreakpoint = useMediaQuery(muiTheme.breakpoints.down("sm"));
-  const isTabletBreakpoint = useMediaQuery(muiTheme.breakpoints.between("sm", "md"));
 
   const isMobile = propIsMobile !== undefined ? propIsMobile : isMobileBreakpoint;
-  const isTablet = propIsTablet !== undefined ? propIsTablet : isTabletBreakpoint;
 
   // state
   const [selectedRows, setSelectedRows] = useState([]);
@@ -214,39 +207,6 @@ const OrdersPage = ({ isMobile: propIsMobile, isTablet: propIsTablet }) => {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
-  // orders array (full data included)
-  const orders = [
-    { id: "#CM9801", user: { name: "Natali Craig", avatar: null }, project: "Landing Page", address: "Meadow Lane Oakland", date: "Just now", status: "In Progress", dateSort: new Date("2024-02-28T10:00:00") },
-    { id: "#CM9802", user: { name: "Kate Morrison", avatar: null }, project: "CRM Admin pages", address: "Larry San Francisco", date: "A minute ago", status: "Complete", dateSort: new Date("2024-02-28T09:59:00") },
-    { id: "#CM9803", user: { name: "Drew Cano", avatar: null }, project: "Client Project", address: "Bagwell Avenue Ocala", date: "1 hour ago", status: "Pending", dateSort: new Date("2024-02-28T09:00:00") },
-    { id: "#CM9804", user: { name: "Orlando Diggs", avatar: null }, project: "Admin Dashboard", address: "Washburn Baton Rouge", date: "Yesterday", status: "Approved", dateSort: new Date("2024-02-27T10:00:00") },
-    { id: "#CM9805", user: { name: "Andi Lane", avatar: null }, project: "App Landing Page", address: "Nest Lane Olivette", date: "Feb 2, 2023", status: "Rejected", dateSort: new Date("2023-02-02T10:00:00") },
-    { id: "#CM9806", user: { name: "John Smith", avatar: null }, project: "E-commerce Site", address: "Broadway New York", date: "Feb 3, 2023", status: "In Progress", dateSort: new Date("2023-02-03T10:00:00") },
-    { id: "#CM9807", user: { name: "Sarah Johnson", avatar: null }, project: "Portfolio Website", address: "Sunset Boulevard LA", date: "Feb 4, 2023", status: "Complete", dateSort: new Date("2023-02-04T10:00:00") },
-    { id: "#CM9808", user: { name: "Mike Davis", avatar: null }, project: "Mobile App", address: "Michigan Avenue Chicago", date: "Feb 5, 2023", status: "Pending", dateSort: new Date("2023-02-05T10:00:00") },
-    { id: "#CM9809", user: { name: "Emma Wilson", avatar: null }, project: "Dashboard Redesign", address: "Pine Street Seattle", date: "Feb 6, 2023", status: "Approved", dateSort: new Date("2023-02-06T10:00:00") },
-    { id: "#CM9810", user: { name: "Alex Brown", avatar: null }, project: "Marketing Site", address: "Oak Street Portland", date: "Feb 7, 2023", status: "Complete", dateSort: new Date("2023-02-07T10:00:00") },
-    { id: "#CM9811", user: { name: "Lisa Garcia", avatar: null }, project: "Data Analytics Platform", address: "Main Street Boston", date: "Feb 8, 2023", status: "In Progress", dateSort: new Date("2023-02-08T10:00:00") },
-    { id: "#CM9812", user: { name: "David Miller", avatar: null }, project: "Learning Management System", address: "University Avenue Austin", date: "Feb 9, 2023", status: "Pending", dateSort: new Date("2023-02-09T10:00:00") },
-    { id: "#CM9813", user: { name: "Rachel Green", avatar: null }, project: "Event Management App", address: "Festival Street Miami", date: "Feb 10, 2023", status: "Rejected", dateSort: new Date("2023-02-10T10:00:00") },
-    { id: "#CM9814", user: { name: "Tom Anderson", avatar: null }, project: "Inventory System", address: "Industrial Park Denver", date: "Feb 11, 2023", status: "Complete", dateSort: new Date("2023-02-11T10:00:00") },
-    { id: "#CM9815", user: { name: "Jennifer Lee", avatar: null }, project: "Healthcare Portal", address: "Medical Center Phoenix", date: "Feb 12, 2023", status: "Approved", dateSort: new Date("2023-02-12T10:00:00") },
-    { id: "#CM9816", user: { name: "Brian White", avatar: null }, project: "Job Board App", address: "King Street Charleston", date: "Feb 13, 2023", status: "Pending", dateSort: new Date("2023-02-13T10:00:00") },
-    { id: "#CM9817", user: { name: "Olivia Moore", avatar: null }, project: "HR Management Tool", address: "Queen Street Toronto", date: "Feb 14, 2023", status: "Complete", dateSort: new Date("2023-02-14T10:00:00") },
-    { id: "#CM9818", user: { name: "Ethan Taylor", avatar: null }, project: "Design System", address: "Creative Avenue Atlanta", date: "Feb 15, 2023", status: "In Progress", dateSort: new Date("2023-02-15T10:00:00") },
-    { id: "#CM9819", user: { name: "Sophia Martin", avatar: null }, project: "Disaster Response Portal", address: "Firehouse Road Houston", date: "Feb 16, 2023", status: "Approved", dateSort: new Date("2023-02-16T10:00:00") },
-    { id: "#CM9820", user: { name: "Daniel Walker", avatar: null }, project: "Recipe App", address: "Baker Street London", date: "Feb 17, 2023", status: "Rejected", dateSort: new Date("2023-02-17T10:00:00") },
-    { id: "#CM9821", user: { name: "Ella Harris", avatar: null }, project: "Customer Support Dashboard", address: "Helpdesk Lane Dallas", date: "Feb 18, 2023", status: "In Progress", dateSort: new Date("2023-02-18T10:00:00") },
-    { id: "#CM9822", user: { name: "Logan Martinez", avatar: null }, project: "Student Portal", address: "Campus Circle Raleigh", date: "Feb 19, 2023", status: "Pending", dateSort: new Date("2023-02-19T10:00:00") },
-    { id: "#CM9823", user: { name: "Grace Thompson", avatar: null }, project: "Farm Management System", address: "Harvest Road Boise", date: "Feb 20, 2023", status: "Complete", dateSort: new Date("2023-02-20T10:00:00") },
-    { id: "#CM9824", user: { name: "Henry Scott", avatar: null }, project: "Safety Compliance App", address: "Rescue Blvd Tampa", date: "Feb 21, 2023", status: "Approved", dateSort: new Date("2023-02-21T10:00:00") },
-    { id: "#CM9825", user: { name: "Chloe Adams", avatar: null }, project: "Travel Booking Platform", address: "Aviation Road Nashville", date: "Feb 22, 2023", status: "In Progress", dateSort: new Date("2023-02-22T10:00:00") },
-    { id: "#CM9826", user: { name: "Lucas Mitchell", avatar: null }, project: "Telemedicine App", address: "Wellness Drive Baltimore", date: "Feb 23, 2023", status: "Complete", dateSort: new Date("2023-02-23T10:00:00") },
-    { id: "#CM9827", user: { name: "Amelia Perez", avatar: null }, project: "Space Education Portal", address: "Galaxy Street Houston", date: "Feb 24, 2023", status: "Pending", dateSort: new Date("2023-02-24T10:00:00") },
-    { id: "#CM9828", user: { name: "Jack Rivera", avatar: null }, project: "AgriTech CRM", address: "Greenfield Road Fresno", date: "Feb 25, 2023", status: "Rejected", dateSort: new Date("2023-02-25T10:00:00") },
-    { id: "#CM9829", user: { name: "Zoe Cooper", avatar: null }, project: "Music Collaboration App", address: "Harmony Lane Austin", date: "Feb 26, 2023", status: "Complete", dateSort: new Date("2023-02-26T10:00:00") },
-    { id: "#CM9830", user: { name: "Nathan Bell", avatar: null }, project: "Lab Management System", address: "Science Park San Diego", date: "Feb 27, 2023", status: "Approved", dateSort: new Date("2023-02-27T10:00:00") },
-  ];
 
   // ---------- sorting helpers ----------
   const getSortedData = (data, sortConfig) => {
@@ -266,9 +226,10 @@ const OrdersPage = ({ isMobile: propIsMobile, isTablet: propIsTablet }) => {
           aVal = a.address.toLowerCase(); bVal = b.address.toLowerCase(); break;
         case "date":
           aVal = a.dateSort; bVal = b.dateSort; break;
-        case "status":
+        case "status": {
           const order = { Pending: 1, "In Progress": 2, Approved: 3, Complete: 4, Rejected: 5 };
           aVal = order[a.status] || 99; bVal = order[b.status] || 99; break;
+        }
         default:
           aVal = a[sortConfig.key]; bVal = b[sortConfig.key];
       }
@@ -299,7 +260,7 @@ const OrdersPage = ({ isMobile: propIsMobile, isTablet: propIsTablet }) => {
       );
     }
     return filtered;
-  }, [orders, searchTerm, activeFilters]);
+  }, [searchTerm, activeFilters]);
 
   const sortedAndFilteredOrders = useMemo(() => getSortedData(filteredOrders, sortConfig), [filteredOrders, sortConfig]);
 

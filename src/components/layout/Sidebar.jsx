@@ -1,12 +1,10 @@
-// src/components/layout/Sidebar.js
 import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 import {
   BarChart3, FolderOpen, User, CreditCard, Globe, FileText, MessageSquare, ChevronDown, ChevronRight, ShoppingBag, GraduationCap, Building, ChartPie, FolderClosed, BookOpen, ContactRound, Users, MessagesSquare, X, Megaphone, Users2
 } from 'lucide-react';
 
-// FavoriteItem component for proper hook usage
 const FavoriteItem = ({ item, darkMode }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -37,7 +35,6 @@ const FavoriteItem = ({ item, darkMode }) => {
   );
 };
 
-// SubMenuItem component for proper hook usage
 const SubMenuItem = ({ item, darkMode }) => {
   const [isHovered, setIsHovered] = useState(false);
 

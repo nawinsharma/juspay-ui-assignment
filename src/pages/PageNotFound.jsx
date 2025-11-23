@@ -1,6 +1,5 @@
-// src/pages/PageNotFound.js
 import React, { useContext } from 'react';
-import { ThemeContext } from '../context/ThemeContextProvider';
+import { ThemeContext } from '../context/ThemeProvider';
 import { AlertTriangle, Home, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

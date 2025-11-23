@@ -1,16 +1,10 @@
-// src/App.jsx - Simplified but effective lazy loading implementation
 import React, { useContext, useState, useCallback, useEffect, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Critical components - Load immediately (above the fold)
 import Header from './components/layout/Header.jsx';
-
-// Context Providers - Load immediately
-import ThemeContextProvider, { ThemeContext } from "./context/ThemeContextProvider";
+import ThemeProvider, { ThemeContext } from "./context/ThemeProvider";
 import { ToastProvider } from './context/ToastContext';
 import { SearchProvider } from './context/SearchContext';
-
-// Lazy load components with better error handling
 const Sidebar = lazy(() => 
   import('./components/layout/Sidebar').catch(() => ({
     default: () => <div className="w-64 h-full bg-gray-100 dark:bg-gray-900 animate-pulse" />
@@ -60,7 +54,6 @@ const PageNotFound = lazy(() =>
   }))
 );
 
-// Loading Components
 const LoadingSpinner = ({ message = 'Loading...' }) => {
   const { darkMode } = useContext(ThemeContext);
   
@@ -222,14 +215,13 @@ const PageSkeleton = () => {
   );
 };
 
-// Simple Error Boundary
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -256,7 +248,6 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// Progressive loading hook
 const useProgressiveLoading = () => {
   const [loadedComponents, setLoadedComponents] = useState({
     sidebar: false,
@@ -573,7 +564,7 @@ const App = () => {
 
   return (
     <SearchProvider>
-      <ThemeContextProvider>
+      <ThemeProvider>
         <ToastProvider>
           <Router
             future={{
@@ -584,7 +575,7 @@ const App = () => {
             <AppContent />
           </Router>
         </ToastProvider>
-      </ThemeContextProvider>
+      </ThemeProvider>
     </SearchProvider>
   );
 };

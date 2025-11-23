@@ -1,12 +1,9 @@
-// src/components/layout/Header.js - Fixed mobile overlay positioning
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Bell, Search, Notebook, SunMedium, History, Star, X, Check, Trash2, Menu, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 import { useToast } from '../../hooks/useToast';
 import { useSearch } from '../../context/SearchContext';
-
-// PortalTooltip component remains the same
 const PortalTooltip = ({ anchorRef, visible, text, isDarkMode }) => {
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef(null);

@@ -1,7 +1,6 @@
-// src/components/dashboard/StatsCards.js
 import React, { useContext } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
-import { ThemeContext } from '../../context/ThemeContextProvider';
+import { ThemeContext } from '../../context/ThemeProvider';
 
 const StatCard = ({ title, value, trend, change, isMobile }) => {
   const { darkMode } = useContext(ThemeContext);
