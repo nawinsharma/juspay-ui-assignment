@@ -29,66 +29,11 @@ This project is a fully responsive SaaS dashboard built with React, implementing
 - **React Router v6** - Client-side routing
 - **ESLint & Prettier** - Code quality and formatting
 
-## 📁 Project Structure
-
-```
-juspay-dashboard/
-├── public/
-│   ├── index.html
-│   └── favicon.ico
-├── src/
-│   ├── components/
-│   │   ├── common/
-│   │   │   ├── Header.tsx
-│   │   │   ├── Sidebar.tsx
-│   │   │   └── Navigation.tsx
-│   │   ├── dashboard/
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── MetricsCard.tsx
-│   │   │   ├── Chart.tsx
-│   │   │   └── ActivityFeed.tsx
-│   │   ├── animations/
-│   │   │   └── TransitionEffects.tsx
-│   │   └── ui/
-│   │       ├── Button.tsx
-│   │       ├── Card.tsx
-│   │       └── Modal.tsx
-│   ├── pages/
-│   │   ├── Home.tsx
-│   │   ├── Analytics.tsx
-│   │   └── Settings.tsx
-│   ├── hooks/
-│   │   ├── useResponsive.ts
-│   │   └── useAnimation.ts
-│   ├── styles/
-│   │   ├── globals.css
-│   │   ├── animations.css
-│   │   └── tailwind.config.js
-│   ├── utils/
-│   │   ├── constants.ts
-│   │   ├── helpers.ts
-│   │   └── formatters.ts
-│   ├── types/
-│   │   └── index.ts
-│   ├── App.tsx
-│   ├── App.css
-│   └── index.tsx
-├── .env.example
-├── .gitignore
-├── .eslintrc.json
-├── .prettierrc
-├── tailwind.config.js
-├── tsconfig.json
-├── package.json
-├── README.md
-└── yarn.lock (or package-lock.json)
-```
-
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Node.js**: v16.x or higher
+- **Node.js**: v18.x or higher
 - **npm**: v8.x or higher (or yarn v3.x+)
 - **Git**: For version control
 
@@ -219,7 +164,6 @@ This project is private and for evaluation purposes only.
 
 ## 👤 Author
 
-**Your Name**
 - GitHub: [@nawinsharma](https://github.com/nawinsharma)
 - LinkedIn: [ LinkedIn](https://www.linkedin.com/in/nawin-sharma-83009825a)
 - Email: nawinsharma60@gmail.com
