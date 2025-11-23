@@ -19,7 +19,7 @@ const FavoriteItem = ({ item, darkMode }) => {
         gap: 8,
         padding: '8px 10px',
         borderRadius: 8,
-        background: isHovered ? (darkMode ? '#1f2937' : '#f3f4f6') : 'transparent',
+        background: isHovered ? (darkMode ? '#333333' : '#f3f4f6') : 'transparent',
         color: darkMode ? '#cfcfcf' : '#374151',
         border: 'none',
         textAlign: 'left',
@@ -52,7 +52,7 @@ const SubMenuItem = ({ item, darkMode }) => {
         padding: 8,
         borderRadius: 8,
         textAlign: 'left',
-        background: isHovered ? (darkMode ? '#1f2937' : '#f3f4f6') : 'transparent',
+        background: isHovered ? (darkMode ? '#333333' : '#f3f4f6') : 'transparent',
         color: item.disabled ? (darkMode ? '#6b7280' : '#9ca3af') : (darkMode ? '#cfcfcf' : '#374151'),
         position: 'relative'
       }}
@@ -97,7 +97,7 @@ const CollapsibleMenuItem = ({
         className={`w-full flex items-center space-x-3 px-2 py-2 rounded-lg transition-colors text-left relative`}
         aria-expanded={!!isExpanded}
         style={{ 
-          background: isHovered ? (darkMode ? '#1f2937' : '#f3f4f6') : 'transparent'
+          background: isHovered ? (darkMode ? '#333333' : '#f3f4f6') : 'transparent'
         }}
       >
         <div className="flex items-center space-x-3 min-w-0 flex-1">
