@@ -92,25 +92,46 @@ const SidebarSkeleton = () => {
     >
       {/* Logo skeleton */}
       <div className="flex items-center space-x-3 mb-6">
-        <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        <div 
+          className="w-8 h-8 rounded animate-pulse" 
+          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+        ></div>
+        <div 
+          className="h-6 w-24 rounded animate-pulse" 
+          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+        ></div>
       </div>
       
       {/* Navigation skeleton */}
       {[1, 2, 3, 4, 5].map((item) => (
         <div key={item} className="flex items-center space-x-3 p-2">
-          <div className="w-5 h-5 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-          <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          <div 
+            className="w-5 h-5 rounded animate-pulse" 
+            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+          ></div>
+          <div 
+            className="h-4 w-20 rounded animate-pulse" 
+            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+          ></div>
         </div>
       ))}
       
       {/* User section skeleton */}
       <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+          <div 
+            className="w-10 h-10 rounded-full animate-pulse" 
+            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+          ></div>
           <div className="flex flex-col space-y-1">
-            <div className="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-3 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div 
+              className="h-4 w-16 rounded animate-pulse" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
+            <div 
+              className="h-3 w-12 rounded animate-pulse" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
           </div>
         </div>
       </div>
@@ -131,13 +152,22 @@ const RightSidebarSkeleton = () => {
       }}
     >
       {/* Header skeleton */}
-      <div className="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
+      <div 
+        className="h-6 w-32 rounded animate-pulse mb-4" 
+        style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+      ></div>
       
       {/* Cards skeleton */}
       {[1, 2, 3].map((item) => (
         <div key={item} className="p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
-          <div className="h-16 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          <div 
+            className="h-4 w-24 rounded animate-pulse mb-2" 
+            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+          ></div>
+          <div 
+            className="h-16 w-full rounded animate-pulse" 
+            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+          ></div>
         </div>
       ))}
     </div>
@@ -151,8 +181,14 @@ const PageSkeleton = () => {
     <div className="p-6 space-y-6">
       {/* Header skeleton */}
       <div className="flex justify-between items-center">
-        <div className="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        <div className="h-10 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        <div 
+          className="h-8 w-48 rounded animate-pulse" 
+          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+        ></div>
+        <div 
+          className="h-10 w-32 rounded animate-pulse" 
+          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+        ></div>
       </div>
       
       {/* Stats cards skeleton */}
@@ -166,9 +202,18 @@ const PageSkeleton = () => {
               transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
-            <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
-            <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
-            <div className="h-3 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div 
+              className="h-4 w-20 rounded animate-pulse mb-2" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
+            <div 
+              className="h-8 w-16 rounded animate-pulse mb-1" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
+            <div 
+              className="h-3 w-12 rounded animate-pulse" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
           </div>
         ))}
       </div>
@@ -183,8 +228,14 @@ const PageSkeleton = () => {
               transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
-            <div className="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
-            <div className="h-64 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div 
+              className="h-6 w-32 rounded animate-pulse mb-4" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
+            <div 
+              className="h-64 w-full rounded animate-pulse" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
           </div>
         </div>
         
@@ -196,14 +247,26 @@ const PageSkeleton = () => {
               transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
-            <div className="h-5 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
+            <div 
+              className="h-5 w-24 rounded animate-pulse mb-4" 
+              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+            ></div>
             <div className="space-y-3">
               {[1, 2, 3].map((item) => (
                 <div key={item} className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                  <div 
+                    className="w-8 h-8 rounded-full animate-pulse" 
+                    style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+                  ></div>
                   <div className="flex-1">
-                    <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
-                    <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div 
+                      className="h-4 w-full rounded animate-pulse mb-1" 
+                      style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+                    ></div>
+                    <div 
+                      className="h-3 w-20 rounded animate-pulse" 
+                      style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
+                    ></div>
                   </div>
                 </div>
               ))}

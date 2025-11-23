@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Bell, Search, Notebook, SunMedium, History, Star, X, Check, Trash2, Menu, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
+import { Bell, Search, Notebook, SunMedium, Moon, History, Star, X, Check, Trash2, Menu, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 import { ThemeContext } from '../../context/ThemeProvider';
 import { useToast } from '../../hooks/useToast';
 import { useSearch } from '../../context/SearchContext';
@@ -91,7 +91,7 @@ const Header = ({
   isTablet = false
 }) => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
-  const { showRefreshToast, showFavoriteAddedToast, showFavoriteRemovedToast } = useToast();
+  const { showRefreshToast } = useToast();
   const { searchQuery, updateSearch, clearSearch } = useSearch();
 
   const [isFavorite, setIsFavorite] = useState(false);
@@ -175,7 +175,6 @@ const Header = ({
   const handleFavoriteToggle = () => {
     const newFavoriteState = !isFavorite;
     setIsFavorite(newFavoriteState);
-    if (newFavoriteState) showFavoriteAddedToast(); else showFavoriteRemovedToast();
   };
 
   // Smart sidebar toggle logic - when one opens, close the other on smaller screens
@@ -262,8 +261,18 @@ const Header = ({
               <button
                 onClick={handleLeftSidebarToggle}
                 ref={leftToggleRef}
-                onMouseEnter={onEnter('left')}
-                onMouseLeave={onLeave}
+                onMouseEnter={(e) => {
+                  onEnter('left')();
+                  if (isDarkMode) {
+                    e.currentTarget.style.backgroundColor = '#282828';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  onLeave();
+                  if (isDarkMode) {
+                    e.currentTarget.style.backgroundColor = '';
+                  }
+                }}
                 className={`p-2 rounded-lg transition-all duration-200 relative ${leftSidebarVisible ? (isDarkMode ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-gray-800') : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700')}`}
               >
                 {isMobile ? <Menu className="w-5 h-5" /> : <Notebook className="w-5 h-5" />}
@@ -274,9 +283,19 @@ const Header = ({
                 <button
                   onClick={handleFavoriteToggle}
                   ref={starButtonRef}
-                  onMouseEnter={onEnter('star')}
-                  onMouseLeave={onLeave}
-                  className={`p-2 rounded-lg transition-all duration-200 relative ${isFavorite ? 'text-yellow-500 hover:text-yellow-400' : (isDarkMode ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}
+                  onMouseEnter={(e) => {
+                    onEnter('star')();
+                    if (isDarkMode && !isFavorite) {
+                      e.currentTarget.style.backgroundColor = '#282828';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    onLeave();
+                    if (isDarkMode && !isFavorite) {
+                      e.currentTarget.style.backgroundColor = '';
+                    }
+                  }}
+                  className={`p-2 rounded-lg transition-all duration-200 relative ${isFavorite ? 'text-yellow-500 hover:text-yellow-400' : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}
                 >
                   <Star className={`w-5 h-5 transition-all duration-200 ${isFavorite ? 'fill-yellow-500' : 'fill-none'}`} />
                 </button>
@@ -357,8 +376,18 @@ const Header = ({
             {/* Mobile/Tablet Search Button */}
             {(isMobile || isTablet) && (
               <button 
-                onClick={toggleMobileSearch} 
-                className={`p-2 rounded-lg transition-all duration-200 ${showMobileSearch ? (isDarkMode ? 'text-blue-400 bg-gray-700' : 'text-blue-600 bg-blue-50') : (isDarkMode ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}
+                onClick={toggleMobileSearch}
+                onMouseEnter={(e) => {
+                  if (isDarkMode && !showMobileSearch) {
+                    e.currentTarget.style.backgroundColor = '#282828';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (isDarkMode && !showMobileSearch) {
+                    e.currentTarget.style.backgroundColor = '';
+                  }
+                }}
+                className={`p-2 rounded-lg transition-all duration-200 ${showMobileSearch ? (isDarkMode ? 'text-blue-400 bg-gray-700' : 'text-blue-600 bg-blue-50') : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}
               >
                 <Search className="w-5 h-5" />
               </button>
@@ -368,17 +397,41 @@ const Header = ({
             <button
               onClick={toggleTheme}
               ref={themeButtonRef}
-              onMouseEnter={onEnter('theme')}
-              onMouseLeave={onLeave}
-              className={`p-2 rounded-lg transition-all duration-200 relative ${isDarkMode ? 'text-yellow-400 hover:text-yellow-300 hover:bg-gray-700' : 'text-gray-500 hover:text-orange-500 hover:bg-gray-100'}`}
+              onMouseEnter={(e) => {
+                onEnter('theme')();
+                if (isDarkMode) {
+                  e.currentTarget.style.backgroundColor = '#282828';
+                }
+              }}
+              onMouseLeave={(e) => {
+                onLeave();
+                if (isDarkMode) {
+                  e.currentTarget.style.backgroundColor = '';
+                }
+              }}
+              className={`p-2 rounded-lg transition-all duration-200 relative ${isDarkMode ? 'text-yellow-400 hover:text-yellow-300' : 'text-gray-500 hover:text-blue-500 hover:bg-gray-100'}`}
             >
-              <SunMedium className="w-5 h-5" />
+              {isDarkMode ? (
+                <SunMedium className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </button>
 
             {/* Refresh Button - Hide on mobile to save space */}
             {!isMobile && (
               <button
-                className={`p-2 rounded-lg transition-all duration-200 relative ${isDarkMode ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'}`}
+                onMouseEnter={(e) => {
+                  if (isDarkMode) {
+                    e.currentTarget.style.backgroundColor = '#282828';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (isDarkMode) {
+                    e.currentTarget.style.backgroundColor = '';
+                  }
+                }}
+                className={`p-2 rounded-lg transition-all duration-200 relative ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'}`}
               >
                 <History className="w-5 h-5 refresh-icon transition-transform duration-300" style={{ transformOrigin: 'center' }} />
               </button>
@@ -389,9 +442,19 @@ const Header = ({
               <button
                 ref={bellButtonRef}
                 onClick={toggleNotifications}
-                onMouseEnter={onEnter('bell')}
-                onMouseLeave={onLeave}
-                className={`p-2 rounded-lg transition-all duration-200 relative ${showNotifications ? (isDarkMode ? 'text-blue-400 bg-gray-700' : 'text-blue-600 bg-blue-50') : (isDarkMode ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}
+                onMouseEnter={(e) => {
+                  onEnter('bell')();
+                  if (isDarkMode && !showNotifications) {
+                    e.currentTarget.style.backgroundColor = '#282828';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  onLeave();
+                  if (isDarkMode && !showNotifications) {
+                    e.currentTarget.style.backgroundColor = '';
+                  }
+                }}
+                className={`p-2 rounded-lg transition-all duration-200 relative ${showNotifications ? (isDarkMode ? 'text-blue-400 bg-gray-700' : 'text-blue-600 bg-blue-50') : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}
               >
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
@@ -471,7 +534,7 @@ const Header = ({
 
                   {/* Notifications List */}
                   <div 
-                    className="overflow-y-auto"
+                    className="overflow-y-auto scrollbar-hide"
                     style={{ maxHeight: '20rem' }}
                   >
                     {notifications.length === 0 ? (
@@ -495,7 +558,7 @@ const Header = ({
                           style={{ 
                             borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)',
                             backgroundColor: !notification.read 
-                              ? (isDarkMode ? 'rgba(59, 130, 246, 0.05)' : 'rgba(59, 130, 246, 0.03)')
+                              ? (isDarkMode ? '#272727' : 'rgba(59, 130, 246, 0.03)')
                               : 'transparent'
                           }}
                         >
@@ -610,8 +673,18 @@ const Header = ({
             <button
               onClick={handleRightSidebarToggle}
               ref={rightToggleRef}
-              onMouseEnter={onEnter('right')}
-              onMouseLeave={onLeave}
+              onMouseEnter={(e) => {
+                onEnter('right')();
+                if (isDarkMode) {
+                  e.currentTarget.style.backgroundColor = '#282828';
+                }
+              }}
+              onMouseLeave={(e) => {
+                onLeave();
+                if (isDarkMode) {
+                  e.currentTarget.style.backgroundColor = '';
+                }
+              }}
               className={`p-2 rounded-lg transition-all duration-200 relative ${rightSidebarVisible ? (isDarkMode ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-gray-800') : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700')}`}
             >
               <Notebook className="w-5 h-5" />

@@ -348,7 +348,12 @@
   }
 
   .skeleton {
-    @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+    @apply animate-pulse rounded;
+    background-color: #e5e7eb;
+  }
+
+  .dark .skeleton {
+    background-color: #282828;
   }
 
   .skeleton-text {

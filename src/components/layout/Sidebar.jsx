@@ -8,6 +8,12 @@ import {
 const FavoriteItem = ({ item, darkMode }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const getBackground = () => {
+    if (item.isActive && darkMode) return '#333333';
+    if (isHovered) return darkMode ? '#333333' : '#f3f4f6';
+    return 'transparent';
+  };
+
   return (
     <button 
       onClick={item.onClick}
@@ -19,24 +25,30 @@ const FavoriteItem = ({ item, darkMode }) => {
         gap: 8,
         padding: '8px 10px',
         borderRadius: 8,
-        background: isHovered ? (darkMode ? '#333333' : '#f3f4f6') : 'transparent',
-        color: darkMode ? '#cfcfcf' : '#374151',
+        background: getBackground(),
+        color: darkMode ? '#ffffff' : '#374151',
         border: 'none',
         textAlign: 'left',
         position: 'relative'
       }}
     >
       {item.isActive && (
-        <span style={{ position: 'absolute', left: -8, top: '50%', transform: 'translateY(-50%)', width: 6, height: 28, borderRadius: 8, background: darkMode ? '#C6C7F8' : '#111827' }} />
+        <span style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: 4, height: 20, borderRadius: '0 4px 4px 0', background: darkMode ? '#C6C7F8' : '#111827' }} />
       )}
-      <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#d1d5db', marginLeft: item.isActive ? 8 : 0 }} />
-      <span style={{ paddingLeft: item.isActive ? 8 : 0 }}>{item.label}</span>
+      <span style={{ width: 8, height: 8, borderRadius: '50%', background: darkMode ? '#9ca3af' : '#d1d5db' }} />
+      <span style={{ color: darkMode ? '#ffffff' : undefined }}>{item.label}</span>
     </button>
   );
 };
 
 const SubMenuItem = ({ item, darkMode }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const getBackground = () => {
+    if (item.isActive && darkMode) return '#333333';
+    if (isHovered) return darkMode ? '#333333' : '#f3f4f6';
+    return 'transparent';
+  };
 
   return (
     <button 
@@ -52,16 +64,16 @@ const SubMenuItem = ({ item, darkMode }) => {
         padding: 8,
         borderRadius: 8,
         textAlign: 'left',
-        background: isHovered ? (darkMode ? '#333333' : '#f3f4f6') : 'transparent',
-        color: item.disabled ? (darkMode ? '#6b7280' : '#9ca3af') : (darkMode ? '#cfcfcf' : '#374151'),
+        background: getBackground(),
+        color: item.disabled ? (darkMode ? '#6b7280' : '#9ca3af') : (darkMode ? '#ffffff' : '#374151'),
         position: 'relative'
       }}
     >
       {item.isActive && (
-        <span style={{ position: 'absolute', left: -16, top: '50%', transform: 'translateY(-50%)', width: 6, height: 28, borderRadius: 8, background: darkMode ? '#C6C7F8' : '#111827' }} />
+        <span style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: 4, height: 20, borderRadius: '0 4px 4px 0', background: darkMode ? '#C6C7F8' : '#111827' }} />
       )}
       <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'transparent' }} />
-      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</span>
+      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: item.disabled ? undefined : (darkMode ? '#ffffff' : undefined) }}>{item.label}</span>
     </button>
   );
 };
@@ -88,6 +100,12 @@ const CollapsibleMenuItem = ({
     }
   };
 
+  const getBackground = () => {
+    if (isActive && darkMode) return '#333333';
+    if (isHovered) return darkMode ? '#333333' : '#f3f4f6';
+    return 'transparent';
+  };
+
   return (
     <div>
       <button
@@ -97,26 +115,41 @@ const CollapsibleMenuItem = ({
         className={`w-full flex items-center space-x-3 px-2 py-2 rounded-lg transition-colors text-left relative`}
         aria-expanded={!!isExpanded}
         style={{ 
-          background: isHovered ? (darkMode ? '#333333' : '#f3f4f6') : 'transparent'
+          background: getBackground()
         }}
       >
         <div className="flex items-center space-x-3 min-w-0 flex-1">
           {isActive ? (
-            <span aria-hidden style={{ position: 'absolute', left: -8, top: '50%', transform: 'translateY(-50%)', width: 6, height: 28, borderRadius: 8, background: darkMode ? '#C6C7F8' : '#111827' }} />
+            <span aria-hidden style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: 4, height: 20, borderRadius: '0 4px 4px 0', background: darkMode ? '#C6C7F8' : '#111827' }} />
           ) : null}
 
-          {/* Arrow moved to the left side */}
+          {/* Arrow moved to the left side - hide when selected */}
           <div className="flex-shrink-0" style={{ width: isMobile ? 12 : 16 }}>
-            {subItems.length > 0 ? (
-              isExpanded ? <ChevronDown className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} /> : <ChevronRight className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+            {subItems.length > 0 && !isActive ? (
+              isExpanded ? (
+                <ChevronDown 
+                  className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} 
+                  style={{ color: darkMode ? '#9ca3af' : '#6b7280' }}
+                />
+              ) : (
+                <ChevronRight 
+                  className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} 
+                  style={{ color: darkMode ? '#9ca3af' : '#6b7280' }}
+                />
+              )
             ) : null}
           </div>
 
-          {hasIcon && Icon && <Icon className={`flex-shrink-0 ${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} aria-hidden />}
+          {hasIcon && Icon && (
+            <Icon 
+              className={`flex-shrink-0 ${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} 
+              aria-hidden 
+              style={{ color: darkMode ? '#ffffff' : undefined }}
+            />
+          )}
 
           <span className={`truncate ${isMobile ? 'text-sm' : 'text-base'}`} style={{ 
-            paddingLeft: isActive ? 8 : 0, 
-            color: darkMode ? '#cfcfcf' : '#374151'
+            color: darkMode ? '#ffffff' : '#374151'
           }}>
             {label}
           </span>
@@ -264,17 +297,15 @@ const Sidebar = ({ isVisible, isMobile = false, onClose }) => {
 
         <nav style={{ padding: isMobile ? 16 : 24, display: 'flex', flexDirection: 'column', gap: 12, height: 'calc(100% - 96px)', overflowY: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: darkMode ? '#9ca3af' : '#6b7280' }}>FAVORITES</div>
-            <button onClick={() => handleNavigation('/recently')} style={{ 
-              fontSize: 12, 
-              fontWeight: 700, 
-              letterSpacing: 1.5, 
-              color: darkMode ? '#9ca3af' : '#6b7280', 
+            <div className={isMobile ? 'text-sm' : 'text-base'} style={{ color: darkMode ? '#9ca3af' : '#374151' }}>Favorites</div>
+            <button onClick={() => handleNavigation('/recently')} className={isMobile ? 'text-sm' : 'text-base'} style={{ 
+              color: darkMode ? '#9ca3af' : '#374151', 
               background: 'transparent', 
               border: 'none', 
-              cursor: 'pointer' 
+              cursor: 'pointer',
+              fontWeight: 'normal'
             }}>
-              RECENTLY
+              Recently
             </button>
           </div>
 
@@ -288,7 +319,7 @@ const Sidebar = ({ isVisible, isMobile = false, onClose }) => {
             ))}
           </div>
 
-          <div style={{ marginTop: 12, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: darkMode ? '#9ca3af' : '#6b7280' }}>DASHBOARDS</div>
+          <div className={isMobile ? 'text-sm' : 'text-base'} style={{ marginTop: 12, color: darkMode ? '#9ca3af' : '#374151' }}>Dashboards</div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <CollapsibleMenuItem 
@@ -337,7 +368,7 @@ const Sidebar = ({ isVisible, isMobile = false, onClose }) => {
             />
           </div>
 
-          <div style={{ marginTop: 20, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: darkMode ? '#9ca3af' : '#6b7280' }}>PAGES</div>
+          <div className={isMobile ? 'text-sm' : 'text-base'} style={{ marginTop: 20, color: darkMode ? '#9ca3af' : '#374151' }}>Pages</div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <CollapsibleMenuItem 
