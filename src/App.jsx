@@ -1,10 +1,17 @@
 import React, { useContext, useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Header from './components/layout/Header.jsx';
-import ThemeProvider, { ThemeContext } from "./context/ThemeProvider";
+import Header from './components/layout/Header';
+import ThemeProvider, { ThemeContext } from './context/ThemeProvider';
 import { ToastProvider } from './context/ToastContext';
 import { SearchProvider } from './context/SearchContext';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import SidebarSkeleton from './components/common/SidebarSkeleton';
+import RightSidebarSkeleton from './components/common/RightSidebarSkeleton';
+import PageSkeleton from './components/common/PageSkeleton';
+import useProgressiveLoading from './hooks/useProgressiveLoading';
+
+// Lazy load components with error fallbacks
 const Sidebar = lazy(() => 
   import('./components/layout/Sidebar').catch(() => ({
     default: () => <div className="w-64 h-full bg-gray-100 dark:bg-gray-900 animate-pulse" />
@@ -54,302 +61,20 @@ const PageNotFound = lazy(() =>
   }))
 );
 
-const LoadingSpinner = ({ message = 'Loading...' }) => {
-  const { darkMode } = useContext(ThemeContext);
-  
-  return (
-    <div className="flex items-center justify-center p-8">
-      <div className="flex flex-col items-center space-y-4">
-        <div 
-          className="w-8 h-8 border-4 border-solid rounded-full animate-spin"
-          style={{
-            borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-            borderTopColor: darkMode ? '#90caf9' : '#1976d2',
-          }}
-        />
-        <p 
-          className="text-sm"
-          style={{ color: darkMode ? '#FFFFFF' : '#111827' }}
-        >
-          {message}
-        </p>
-      </div>
-    </div>
-  );
-};
-
-const SidebarSkeleton = () => {
-  const { darkMode } = useContext(ThemeContext);
-  
-  return (
-    <div 
-      className="w-64 h-full flex flex-col space-y-4 p-4"
-      style={{
-        backgroundColor: darkMode ? '#1C1C1C' : '#ffffff',
-        borderRight: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e0e0e0'}`,
-        transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-      }}
-    >
-      {/* Logo skeleton */}
-      <div className="flex items-center space-x-3 mb-6">
-        <div 
-          className="w-8 h-8 rounded animate-pulse" 
-          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-        ></div>
-        <div 
-          className="h-6 w-24 rounded animate-pulse" 
-          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-        ></div>
-      </div>
-      
-      {/* Navigation skeleton */}
-      {[1, 2, 3, 4, 5].map((item) => (
-        <div key={item} className="flex items-center space-x-3 p-2">
-          <div 
-            className="w-5 h-5 rounded animate-pulse" 
-            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-          ></div>
-          <div 
-            className="h-4 w-20 rounded animate-pulse" 
-            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-          ></div>
-        </div>
-      ))}
-      
-      {/* User section skeleton */}
-      <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex items-center space-x-3">
-          <div 
-            className="w-10 h-10 rounded-full animate-pulse" 
-            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-          ></div>
-          <div className="flex flex-col space-y-1">
-            <div 
-              className="h-4 w-16 rounded animate-pulse" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-            <div 
-              className="h-3 w-12 rounded animate-pulse" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const RightSidebarSkeleton = () => {
-  const { darkMode } = useContext(ThemeContext);
-  
-  return (
-    <div 
-      className="w-80 h-full flex flex-col space-y-4 p-4"
-      style={{
-        backgroundColor: darkMode ? '#1C1C1C' : '#ffffff',
-        borderLeft: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e0e0e0'}`,
-        transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-      }}
-    >
-      {/* Header skeleton */}
-      <div 
-        className="h-6 w-32 rounded animate-pulse mb-4" 
-        style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-      ></div>
-      
-      {/* Cards skeleton */}
-      {[1, 2, 3].map((item) => (
-        <div key={item} className="p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div 
-            className="h-4 w-24 rounded animate-pulse mb-2" 
-            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-          ></div>
-          <div 
-            className="h-16 w-full rounded animate-pulse" 
-            style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-          ></div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const PageSkeleton = () => {
-  const { darkMode } = useContext(ThemeContext);
-
-  return (
-    <div className="p-6 space-y-6">
-      {/* Header skeleton */}
-      <div className="flex justify-between items-center">
-        <div 
-          className="h-8 w-48 rounded animate-pulse" 
-          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-        ></div>
-        <div 
-          className="h-10 w-32 rounded animate-pulse" 
-          style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-        ></div>
-      </div>
-      
-      {/* Stats cards skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[1, 2, 3, 4].map((item) => (
-          <div 
-            key={item} 
-            className="p-6 rounded-xl border border-gray-200 dark:border-gray-700"
-            style={{
-              backgroundColor: darkMode ? '#1C1C1C' : '#ffffff',
-              transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          >
-            <div 
-              className="h-4 w-20 rounded animate-pulse mb-2" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-            <div 
-              className="h-8 w-16 rounded animate-pulse mb-1" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-            <div 
-              className="h-3 w-12 rounded animate-pulse" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Main content skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <div 
-            className="p-6 rounded-xl border border-gray-200 dark:border-gray-700"
-            style={{
-              backgroundColor: darkMode ? '#1C1C1C' : '#ffffff',
-              transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          >
-            <div 
-              className="h-6 w-32 rounded animate-pulse mb-4" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-            <div 
-              className="h-64 w-full rounded animate-pulse" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-          </div>
-        </div>
-        
-        <div className="space-y-4">
-          <div 
-            className="p-6 rounded-xl border border-gray-200 dark:border-gray-700"
-            style={{
-              backgroundColor: darkMode ? '#1C1C1C' : '#ffffff',
-              transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          >
-            <div 
-              className="h-5 w-24 rounded animate-pulse mb-4" 
-              style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-            ></div>
-            <div className="space-y-3">
-              {[1, 2, 3].map((item) => (
-                <div key={item} className="flex items-center space-x-3">
-                  <div 
-                    className="w-8 h-8 rounded-full animate-pulse" 
-                    style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-                  ></div>
-                  <div className="flex-1">
-                    <div 
-                      className="h-4 w-full rounded animate-pulse mb-1" 
-                      style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-                    ></div>
-                    <div 
-                      className="h-3 w-20 rounded animate-pulse" 
-                      style={{ backgroundColor: darkMode ? '#282828' : '#e5e7eb' }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-8 text-center">
-          <h2 className="text-xl font-semibold text-red-600 mb-2">Something went wrong</h2>
-          <button 
-            onClick={() => this.setState({ hasError: false })}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Try again
-        </button>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
-const useProgressiveLoading = () => {
-  const [loadedComponents, setLoadedComponents] = useState({
-    sidebar: false,
-    rightSidebar: false,
-    mainContent: false,
-  });
-
-  useEffect(() => {
-    // Load components progressively with staggered timing
-    const timer1 = setTimeout(() => {
-      setLoadedComponents(prev => ({ ...prev, sidebar: true }));
-    }, 100);
-
-    const timer2 = setTimeout(() => {
-      setLoadedComponents(prev => ({ ...prev, rightSidebar: true }));
-    }, 200);
-
-    const timer3 = setTimeout(() => {
-      setLoadedComponents(prev => ({ ...prev, mainContent: true }));
-    }, 300);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
-  }, []);
-
-  return loadedComponents;
-};
-
 const AppContent = () => {
   const { darkMode } = useContext(ThemeContext);
   const loadedComponents = useProgressiveLoading();
 
   // Responsive state
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
-  const [leftSidebarVisible, setLeftSidebarVisible] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
-  const [rightSidebarVisible, setRightSidebarVisible] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1280 : true);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+  const [leftSidebarVisible, setLeftSidebarVisible] = useState(
+    typeof window !== 'undefined' ? window.innerWidth >= 1024 : true
+  );
+  const [rightSidebarVisible, setRightSidebarVisible] = useState(
+    typeof window !== 'undefined' ? window.innerWidth >= 1280 : true
+  );
 
   // Handle window resize
   useEffect(() => {
@@ -357,17 +82,9 @@ const AppContent = () => {
       const width = window.innerWidth;
       setWindowWidth(width);
 
-      // Only auto-hide sidebars on resize, don't force close if user manually toggled
-      if (width < 1024) {
-        // Left sidebar can still be toggled manually on mobile
-      }
-      if (width < 1280) {
-        // Right sidebar can still be toggled manually on mobile/tablet
-      }
-
+      // Auto-show sidebars on larger screens
       if (width >= 1024 && width < 1280) {
         setLeftSidebarVisible(true);
-        // Right sidebar can be toggled manually
       }
       if (width >= 1280) {
         setLeftSidebarVisible(true);
@@ -382,7 +99,6 @@ const AppContent = () => {
 
   // Preload components on user interaction
   useEffect(() => {
-    // Preload components after initial render
     const preloadTimer = setTimeout(() => {
       import('./components/layout/Sidebar');
       import('./components/layout/RightSidebar');
@@ -396,7 +112,6 @@ const AppContent = () => {
   // Toggle functions
   const toggleLeftSidebar = () => setLeftSidebarVisible(prev => !prev);
   const toggleRightSidebar = () => setRightSidebarVisible(prev => !prev);
-
 
   // Close sidebars when clicking overlay on mobile
   const handleOverlayClick = () => {
@@ -587,50 +302,6 @@ const AppContent = () => {
 };
 
 const App = () => {
-  useEffect(() => {
-    // Performance optimization styles
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = `
-      :root {
-        --theme-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), 
-                           color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-                           border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      * {
-        transition: var(--theme-transition) !important;
-      }
-      
-      /* Loading animations */
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      
-      .fade-in {
-        animation: fadeIn 300ms ease-out;
-      }
-      
-      /* Performance optimizations */
-      .transform {
-        will-change: transform;
-        backface-visibility: hidden;
-      }
-      
-      /* Hide scrollbar for main content area */
-      main::-webkit-scrollbar {
-        display: none;
-      }
-    `;
-    document.head.appendChild(styleSheet);
-
-    return () => {
-      if (document.head.contains(styleSheet)) {
-        document.head.removeChild(styleSheet);
-      }
-    };
-  }, []);
-
   return (
     <SearchProvider>
       <ThemeProvider>
