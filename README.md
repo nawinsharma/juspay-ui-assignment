@@ -2,23 +2,6 @@
 
 A pixel-perfect, responsive React dashboard built from Figma designs with smooth animations and interactive elements that feel great to use.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Demo](#demo)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Installation](#installation)
-- [Running Locally](#running-locally)
-- [Building for Production](#building-for-production)
-- [Design Decisions](#design-decisions)
-- [Browser Compatibility](#browser-compatibility)
-- [Performance Considerations](#performance-considerations)
-- [Deployment](#deployment)
-- [License](#license)
-- [Author](#author)
-
 ## 🎯 Overview
 
 This project is a fully responsive SaaS dashboard built with React, implementing pixel-perfect designs from the Figma handoff. The dashboard includes:
