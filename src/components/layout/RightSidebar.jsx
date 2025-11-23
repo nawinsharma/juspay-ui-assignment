@@ -56,7 +56,7 @@ const RightSidebar = ({ isVisible, isMobile = false, isTablet = false, onClose }
       <aside aria-hidden={!isVisible} className={`${isVisible ? 'w-80 opacity-100' : 'w-0 opacity-0'} transition-all duration-300 ease-in-out border-l p-0 overflow-hidden h-screen`} style={{...desktopStyle, position: 'relative'}}>
         <div className="w-80 p-6 h-full flex flex-col" style={{ minWidth: 0 }}>
 
-          <div className="flex-1 overflow-y-auto space-y-6">
+          <div className="flex-1 overflow-y-auto space-y-6 custom-scrollbar">
             <div>
               <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: darkMode ? '#fff' : '#111827' }}>Notifications</h3>
               <div className="space-y-3">
@@ -249,7 +249,7 @@ const RightSidebar = ({ isVisible, isMobile = false, isTablet = false, onClose }
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-6">
+        <div className="flex-1 overflow-y-auto space-y-6 custom-scrollbar">
           <div>
             <h3 style={{ 
               fontSize: isMobile ? 14 : 16, 

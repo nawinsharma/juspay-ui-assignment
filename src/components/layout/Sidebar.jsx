@@ -295,7 +295,7 @@ const Sidebar = ({ isVisible, isMobile = false, onClose }) => {
           </div>
         </div>
 
-        <nav style={{ padding: isMobile ? 16 : 24, display: 'flex', flexDirection: 'column', gap: 12, height: 'calc(100% - 96px)', overflowY: 'auto' }}>
+        <nav className="custom-scrollbar" style={{ padding: isMobile ? 16 : 24, display: 'flex', flexDirection: 'column', gap: 12, height: 'calc(100% - 96px)', overflowY: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div className={isMobile ? 'text-sm' : 'text-base'} style={{ color: darkMode ? '#9ca3af' : '#374151' }}>Favorites</div>
             <button onClick={() => handleNavigation('/recently')} className={isMobile ? 'text-sm' : 'text-base'} style={{ 
