@@ -230,8 +230,9 @@ const Sidebar = ({ isVisible, isMobile = false, onClose }) => {
     borderRight: `1px solid ${darkMode ? 'rgba(255,255,255,0.04)' : '#e5e7eb'}`,
     width: isVisible ? 256 : 0,
     transition: 'all 300ms ease',
-    height: '100%',
-    overflow: 'hidden'
+    height: '100vh',
+    overflow: 'hidden',
+    position: 'relative'
   };
 
   return (

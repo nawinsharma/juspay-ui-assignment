@@ -4,7 +4,7 @@ import { Bell, Search, Notebook, SunMedium, History, Star, X, Check, Trash2, Men
 import { ThemeContext } from '../../context/ThemeProvider';
 import { useToast } from '../../hooks/useToast';
 import { useSearch } from '../../context/SearchContext';
-const PortalTooltip = ({ anchorRef, visible, text, isDarkMode }) => {
+const PortalTooltip = ({ anchorRef, visible, text }) => {
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef(null);
 
@@ -87,7 +87,6 @@ const Header = ({
   rightSidebarVisible,
   toggleLeftSidebar,
   toggleRightSidebar,
-  onRefreshDashboard,
   isMobile = false,
   isTablet = false
 }) => {
@@ -252,19 +251,6 @@ const Header = ({
   const onEnter = (key) => () => setHoverTooltip(key);
   const onLeave = () => setHoverTooltip(null);
 
-  // Keep original icons - Notebook for both sidebars, Menu for mobile left sidebar
-  const getLeftSidebarIcon = () => {
-    if (isMobile) return Menu;
-    return Notebook;
-  };
-
-  const getRightSidebarIcon = () => {
-    return Notebook;
-  };
-
-  const LeftSidebarIcon = getLeftSidebarIcon();
-  const RightSidebarIcon = getRightSidebarIcon();
-
   // Get header height for mobile search positioning
   const headerHeight = isMobile ? '64px' : '72px';
 
@@ -291,7 +277,7 @@ const Header = ({
                 onMouseLeave={onLeave}
                 className={`p-2 rounded-lg transition-all duration-200 relative ${leftSidebarVisible ? (isDarkMode ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-gray-800') : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700')}`}
               >
-                <LeftSidebarIcon className="w-5 h-5" />
+                {isMobile ? <Menu className="w-5 h-5" /> : <Notebook className="w-5 h-5" />}
               </button>
 
               {/* Favorite Button - Hide on mobile to save space */}
@@ -367,9 +353,9 @@ const Header = ({
                   onChange={(e) => updateSearch(e.target.value)}
                   className={`pl-9 pr-12 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors w-48 xl:w-64`}
                   style={{
-                    backgroundColor: isDarkMode ? '#1C1C1C' : undefined,
+                    backgroundColor: isDarkMode ? '#333333' : '#f4f4f4',
                     borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : undefined,
-                    color: isDarkMode ? '#fff' : undefined
+                    color: isDarkMode ? '#525252' : '#dedede'
                   }}
                 />
                 <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
@@ -515,7 +501,7 @@ const Header = ({
               onMouseLeave={onLeave}
               className={`p-2 rounded-lg transition-all duration-200 relative ${rightSidebarVisible ? (isDarkMode ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-gray-800') : (isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700')}`}
             >
-              <RightSidebarIcon className="w-5 h-5" />
+              <Notebook className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -546,9 +532,9 @@ const Header = ({
                 }}
                 className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 style={{
-                  backgroundColor: isDarkMode ? '#1C1C1C' : undefined,
+                  backgroundColor: isDarkMode ? '#333333' : undefined,
                   borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : undefined,
-                  color: isDarkMode ? '#fff' : undefined
+                  color: isDarkMode ? '#525252' : undefined
                 }}
               />
             </div>

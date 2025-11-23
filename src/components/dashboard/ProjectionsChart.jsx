@@ -102,10 +102,9 @@ const ProjectionsChart = () => {
         <div className="flex flex-col flex-1 min-w-0">
           {/* Bars container */}
           <div
-            className={`flex items-end justify-between ${barSpacing} border-l border-b relative overflow-visible`}
+            className={`flex items-end justify-between ${barSpacing} border-b relative overflow-visible`}
             style={{
               height: `${chartHeight}px`,
-              borderLeft: `1px solid ${darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)'}`,
               borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)'}`
             }}
           >

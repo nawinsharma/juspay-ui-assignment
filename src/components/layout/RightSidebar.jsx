@@ -53,7 +53,7 @@ const RightSidebar = ({ isVisible, isMobile = false, isTablet = false, onClose }
   // For desktop/tablet
   if (!isMobile && !isTablet) {
     return (
-      <aside aria-hidden={!isVisible} className={`${isVisible ? 'w-80 opacity-100' : 'w-0 opacity-0'} transition-all duration-300 ease-in-out border-l p-0 overflow-hidden h-full`} style={desktopStyle}>
+      <aside aria-hidden={!isVisible} className={`${isVisible ? 'w-80 opacity-100' : 'w-0 opacity-0'} transition-all duration-300 ease-in-out border-l p-0 overflow-hidden h-screen`} style={{...desktopStyle, position: 'relative'}}>
         <div className="w-80 p-6 h-full flex flex-col" style={{ minWidth: 0 }}>
 
           <div className="flex-1 overflow-y-auto space-y-6">

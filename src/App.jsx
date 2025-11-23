@@ -295,16 +295,17 @@ const AppContent = () => {
       const width = window.innerWidth;
       setWindowWidth(width);
 
+      // Only auto-hide sidebars on resize, don't force close if user manually toggled
       if (width < 1024) {
-        setLeftSidebarVisible(false);
+        // Left sidebar can still be toggled manually on mobile
       }
       if (width < 1280) {
-        setRightSidebarVisible(false);
+        // Right sidebar can still be toggled manually on mobile/tablet
       }
 
       if (width >= 1024 && width < 1280) {
         setLeftSidebarVisible(true);
-        setRightSidebarVisible(false);
+        // Right sidebar can be toggled manually
       }
       if (width >= 1280) {
         setLeftSidebarVisible(true);
@@ -361,7 +362,7 @@ const AppContent = () => {
       ...fastTransitionStyle 
     }}>
       <div
-        className="min-h-screen flex relative overflow-hidden"
+        className="h-screen flex relative overflow-hidden"
         style={{
           background: appBg,
           color: textColor,
@@ -391,9 +392,13 @@ const AppContent = () => {
             transform 
             ${leftSidebarVisible ? 'translate-x-0' : '-translate-x-full'}
             ${windowWidth >= 1024 ? (leftSidebarVisible ? 'block' : 'hidden') : ''}
+            flex-shrink-0
           `}
           style={{
             transition: 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+            height: '100vh',
+            overflowY: 'auto',
+            overflowX: 'hidden'
           }}
         >
           <ErrorBoundary fallback={<SidebarSkeleton />}>
@@ -412,7 +417,7 @@ const AppContent = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <div className="flex-1 flex flex-col overflow-hidden min-w-0 h-full">
           {/* Header loads immediately */}
           <Header
             leftSidebarVisible={leftSidebarVisible}
@@ -425,8 +430,12 @@ const AppContent = () => {
           />
 
           <main 
-            className="flex-1 overflow-x-hidden overflow-y-auto"
-            style={fastTransitionStyle}
+            className="flex-1 overflow-x-hidden overflow-y-auto min-h-0"
+            style={{
+              ...fastTransitionStyle,
+              scrollbarWidth: 'none', /* Firefox */
+              msOverflowStyle: 'none', /* IE and Edge */
+            }}
           >
             <div 
               className="p-3 sm:p-4 lg:p-6" 
@@ -493,15 +502,15 @@ const AppContent = () => {
         {/* Right Sidebar with Progressive Loading */}
         <div
           className={`
-            ${windowWidth < 1280 ? 'fixed' : 'relative'}
-            inset-y-0 right-0 z-40
-            transform
-            ${rightSidebarVisible ? 'translate-x-0' : 'translate-x-full'}
-            ${windowWidth >= 1280 ? (rightSidebarVisible ? 'block' : 'hidden') : ''}
+            ${windowWidth >= 1280 ? 'relative' : ''}
+            ${windowWidth >= 1280 ? (rightSidebarVisible ? 'block' : 'hidden') : 'block'}
+            ${windowWidth < 1280 ? '' : 'flex-shrink-0'}
           `}
-          style={{
-            transition: 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-          }}
+          style={windowWidth >= 1280 ? {
+            height: '100vh',
+            overflowY: 'auto',
+            overflowX: 'hidden'
+          } : {}}
         >
           <ErrorBoundary fallback={<RightSidebarSkeleton />}>
             {loadedComponents.rightSidebar ? (
@@ -551,6 +560,11 @@ const App = () => {
       .transform {
         will-change: transform;
         backface-visibility: hidden;
+      }
+      
+      /* Hide scrollbar for main content area */
+      main::-webkit-scrollbar {
+        display: none;
       }
     `;
     document.head.appendChild(styleSheet);
