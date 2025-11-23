@@ -20,6 +20,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { ThemeContext } from "../context/ThemeProvider";
+import { useToast } from "../hooks/useToast";
 import {
   Search,
   Add,
@@ -31,6 +32,7 @@ import {
   CalendarToday,
   ChevronLeft,
   ChevronRight,
+  ContentCopy,
 } from "@mui/icons-material";
 
 import { orders } from "../data/dashboardData";
@@ -157,6 +159,7 @@ const CustomPagination = ({ totalPages, currentPage, onChange, themeMode }) => {
 const OrdersPage = ({ isMobile: propIsMobile }) => {
   const muiTheme = useMuiTheme();
   const { darkMode } = useContext(ThemeContext);
+  const { showSuccessToast } = useToast();
   const isMobileBreakpoint = useMediaQuery(muiTheme.breakpoints.down("sm"));
 
   const isMobile = propIsMobile !== undefined ? propIsMobile : isMobileBreakpoint;
@@ -298,6 +301,15 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
   const isAllSelected = selectedRows.length === paginatedOrders.length && paginatedOrders.length > 0;
   const isIndeterminate = selectedRows.length > 0 && selectedRows.length < paginatedOrders.length;
 
+  const handleCopyAddress = async (address) => {
+    try {
+      await navigator.clipboard.writeText(address);
+      showSuccessToast("Address copied to clipboard!");
+    } catch {
+      showSuccessToast("Failed to copy address");
+    }
+  };
+
   const highlightText = (text, s) => {
     if (!s.trim()) return text;
     const re = new RegExp(`(${s})`, "gi");
@@ -330,12 +342,12 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
           mb: 2,
           borderRadius: 2,
           border: `1px solid ${colors.border}`,
-          background: isDarkMode ? "var(--Primary-Light, #FFFFFF0D)" : "var(--Primary-Light, #F7F9FB)",
+          background: isDarkMode ? "#272727" : "#f7f9fb",
         }}>
           {/* Action buttons row */}
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Tooltip title="Add">
-              <IconButton size="small" sx={{ width: 36, height: 36 }}>
+              <IconButton size="small" sx={{ width: 36, height: 36, color: isDarkMode ? "#FFFFFF" : colors.text.secondary }}>
                 <Add fontSize="small" />
               </IconButton>
             </Tooltip>
@@ -348,7 +360,7 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
                   height: 36, 
                   color: activeFilters.status !== 'All' || activeFilters.dateRange !== 'All Time' 
                     ? (isDarkMode ? "#90caf9" : "#1976d2")
-                    : colors.text.secondary 
+                    : (isDarkMode ? colors.text.secondary : "#9ca3af")
                 }}
               >
                 <FilterList fontSize="small" />
@@ -356,7 +368,7 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
             </Tooltip>
             <Tooltip title="Sort">
               <IconButton onClick={handleSortMenuOpen} size="small" sx={{ width: 36, height: 36 }}>
-                <ArrowDownUp style={{ color: colors.text.secondary }} />
+                <ArrowDownUp style={{ color: isDarkMode ? colors.text.secondary : "#9ca3af" }} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -375,7 +387,7 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
                 startAdornment: (
                   <InputAdornment position="start" sx={{ ml: 1, mr: 0 }}>
                     <Search sx={{ 
-                      color: isDarkMode ? "rgba(255, 255, 255, 0.5)" : colors.text.secondary,
+                      color: isDarkMode ? "rgba(255, 255, 255, 0.5)" : "#272727",
                       fontSize: 16,
                       width: 16,
                       height: 16
@@ -405,7 +417,7 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
                 "& .MuiOutlinedInput-root": {
                   height: 28,
                   borderRadius: "8px",
-                  bgcolor: colors.cardBackground,
+                  bgcolor: isDarkMode ? "#272727" : "#f7f9fb",
                   color: colors.text.primary,
                   padding: "4px 8px",
                   gap: "8px",
@@ -425,9 +437,9 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
                     height: 20, 
                     boxSizing: "border-box", 
                     fontSize: 14,
-                    color: colors.text.primary,
+                    color: isDarkMode ? colors.text.primary : "#272727",
                     "&::placeholder": { 
-                      color: isDarkMode ? "rgba(255, 255, 255, 0.5)" : colors.text.secondary, 
+                      color: isDarkMode ? "rgba(255, 255, 255, 0.5)" : "#272727", 
                       opacity: 1 
                     }
                   },
@@ -447,45 +459,38 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
             width: "100%", 
             opacity: 1, 
             borderRadius: 2, 
-            bgcolor: colors.cardBackground, 
-            border: `1px solid ${colors.border}`,
+            bgcolor: isDarkMode ? colors.background : colors.cardBackground, 
+            border: "none",
+            borderBottom: `1px solid ${colors.border}`,
             overflow: "hidden"
           }}
         >
-          <Table stickyHeader size="small" sx={{ bgcolor: colors.cardBackground, "& .MuiTable-root": { bgcolor: colors.cardBackground } }}>
+          <Table stickyHeader size="small" sx={{ bgcolor: isDarkMode ? colors.background : colors.cardBackground, "& .MuiTable-root": { bgcolor: isDarkMode ? colors.background : colors.cardBackground } }}>
             <TableHead>
-              <TableRow sx={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: colors.cardBackground }}>
-                <TableCell padding="checkbox" sx={{ py: 0.75, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>
+              <TableRow sx={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: isDarkMode ? colors.background : colors.cardBackground }}>
+                <TableCell padding="checkbox" sx={{ py: 0.75, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>
                   <Checkbox checked={isAllSelected} indeterminate={isIndeterminate} onChange={handleSelectAll} disabled={paginatedOrders.length === 0} sx={{ color: colors.text.secondary, "&.Mui-checked": { color: tickColor } }} />
                 </TableCell>
-                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>Order ID</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>User</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>Project</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>Address</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>Date</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }}>Status</TableCell>
-                <TableCell sx={{ py: 0.75, px: 1, borderBottom: `2px solid ${colors.border}`, bgcolor: colors.cardBackground }} />
+                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>Order ID</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>User</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>Project</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>Address</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>Date</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: colors.text.secondary, py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>Status</TableCell>
+                <TableCell sx={{ py: 0.75, px: 1, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }} />
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {/* explicit divider row between header and entries for a guaranteed visible line */}
-              {paginatedOrders.length > 0 && (
-                <TableRow>
-                  <TableCell colSpan={8} sx={{ p: 0, bgcolor: colors.cardBackground }}>
-                    <Box sx={{ height: "1px", background: colors.border, width: "100%" }} />
-                  </TableCell>
-                </TableRow>
-              )}
 
               {paginatedOrders.map((order, idx) => (
                 <TableRow 
                   key={`${order.id}-${idx}`} 
                   hover 
                   sx={{ 
-                    "& .MuiTableCell-root": { borderBottom: `1px solid ${colors.border}`, bgcolor: colors.cardBackground },
+                    "& .MuiTableCell-root": { borderBottom: `1px solid ${colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground },
                     minHeight: 48,
-                    bgcolor: colors.cardBackground,
+                    bgcolor: isDarkMode ? colors.background : colors.cardBackground,
                     "&:hover": { background: colors.hover },
                     "&:hover .MuiTableCell-root": { bgcolor: colors.hover }
                   }}
@@ -505,7 +510,42 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
 
                   <TableCell sx={{ py: 0.75, px: 1, bgcolor: "inherit" }}><Typography sx={{ color: colors.text.secondary, fontSize: 13 }}>{highlightText(order.project, searchTerm)}</Typography></TableCell>
 
-                  <TableCell sx={{ py: 0.75, px: 1, bgcolor: "inherit" }}><Typography sx={{ color: colors.text.secondary, fontSize: 13 }}>{highlightText(order.address, searchTerm)}</Typography></TableCell>
+                  <TableCell 
+                    sx={{ 
+                      py: 0.75, 
+                      px: 1, 
+                      bgcolor: "inherit",
+                      position: "relative"
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+                      <Typography sx={{ color: colors.text.secondary, fontSize: 13 }}>{highlightText(order.address, searchTerm)}</Typography>
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCopyAddress(order.address);
+                        }}
+                        sx={{
+                          opacity: 0,
+                          transition: "opacity 0.2s",
+                          padding: "4px",
+                          width: 20,
+                          height: 20,
+                          color: colors.text.secondary,
+                          "&:hover": {
+                            color: colors.text.primary,
+                            bgcolor: "transparent"
+                          },
+                          ".MuiTableRow-root:hover &": {
+                            opacity: 1
+                          }
+                        }}
+                      >
+                        <ContentCopy sx={{ fontSize: 14 }} />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
 
                   <TableCell sx={{ py: 0.75, px: 1, bgcolor: "inherit" }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
@@ -538,7 +578,7 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
 
               {paginatedOrders.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={8} sx={{ textAlign: "center", borderBottom: "none", py: 6, bgcolor: colors.cardBackground }}>
+                  <TableCell colSpan={8} sx={{ textAlign: "center", borderBottom: "none", py: 6, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>
                     <Typography sx={{ color: colors.text.secondary }}>No orders available</Typography>
                   </TableCell>
                 </TableRow>
@@ -559,7 +599,33 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
       </Box>
 
       {/* Sort menu */}
-      <Menu anchorEl={sortMenuAnchor} open={Boolean(sortMenuAnchor)} onClose={handleSortMenuClose}>
+      <Menu 
+        anchorEl={sortMenuAnchor} 
+        open={Boolean(sortMenuAnchor)} 
+        onClose={handleSortMenuClose}
+        disableScrollLock
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        PaperProps={{
+          sx: {
+            bgcolor: isDarkMode ? colors.cardBackground : "#ffffff",
+            border: `1px solid ${colors.border}`,
+            mt: 0.5,
+            "& .MuiMenuItem-root": {
+              color: colors.text.primary,
+              "&:hover": {
+                bgcolor: colors.hover
+              }
+            }
+          }
+        }}
+      >
         <MenuItem onClick={() => handleSortChange("id")}>Order ID {sortConfig.key === "id" && (sortConfig.direction === "asc" ? <ArrowUpward sx={{ ml: 1 }} /> : <ArrowDownward sx={{ ml: 1 }} />)}</MenuItem>
         <MenuItem onClick={() => handleSortChange("user")}>User {sortConfig.key === "user" && (sortConfig.direction === "asc" ? <ArrowUpward sx={{ ml: 1 }} /> : <ArrowDownward sx={{ ml: 1 }} />)}</MenuItem>
         <MenuItem onClick={() => handleSortChange("project")}>Project {sortConfig.key === "project" && (sortConfig.direction === "asc" ? <ArrowUpward sx={{ ml: 1 }} /> : <ArrowDownward sx={{ ml: 1 }} />)}</MenuItem>
@@ -568,14 +634,40 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
       </Menu>
 
       {/* Filter menu */}
-      <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+      <Menu 
+        anchorEl={filterAnchorEl} 
+        open={Boolean(filterAnchorEl)} 
+        onClose={handleFilterClose}
+        disableScrollLock
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        PaperProps={{
+          sx: {
+            bgcolor: isDarkMode ? colors.cardBackground : "#ffffff",
+            border: `1px solid ${colors.border}`,
+            mt: 0.5,
+            "& .MuiMenuItem-root": {
+              color: colors.text.primary,
+              "&:hover": {
+                bgcolor: colors.hover
+              }
+            }
+          }
+        }}
+      >
         <Box sx={{ p: 1, minWidth: 200 }}>
-          <Typography sx={{ fontWeight: 600, mb: 1 }}>Filter by Status</Typography>
+          <Typography sx={{ fontWeight: 600, mb: 1, color: colors.text.primary }}>Filter by Status</Typography>
           {["All", "Complete", "In Progress", "Pending", "Approved", "Rejected"].map(s => (
             <MenuItem key={s} onClick={() => { handleFilterChange("status", s); handleFilterClose(); }} sx={{ bgcolor: activeFilters.status === s ? colors.hover : "transparent" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 {s !== "All" && <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: statusColorMap[s] || colors.text.secondary }} />}
-                <Typography sx={{ fontSize: 13 }}>{s}</Typography>
+                <Typography sx={{ fontSize: 13, color: colors.text.primary }}>{s}</Typography>
                 {activeFilters.status === s && <Box sx={{ ml: "auto", color: isDarkMode ? "#90caf9" : "#1976d2" }}>✓</Box>}
               </Box>
             </MenuItem>
