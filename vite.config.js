@@ -6,6 +6,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     react({
+      include: /\.(jsx|js)$/,
       babel: {
         plugins: [['babel-plugin-react-compiler']],
       },
@@ -15,5 +16,6 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
+    extensions: ['.jsx', '.js', '.json'],
   },
 })
