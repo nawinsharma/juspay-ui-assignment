@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import { revenueByLocation } from '../../data/dashboardData';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 import worldMapImage from '../../assets/images/world-map.png';
 
 const RevenueByLocation = ({ isMobile = false }) => {

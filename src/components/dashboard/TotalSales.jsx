@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 import { createPortal } from 'react-dom';
 
 const pieData = [

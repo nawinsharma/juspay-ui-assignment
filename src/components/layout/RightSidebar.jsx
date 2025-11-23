@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { activities, contacts } from '../../data/dashboardData';
 import { Bug, User, Radio, X } from 'lucide-react';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 
 /**
  * IconWithBg

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { topSellingProducts } from '../../data/dashboardData';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const TopSellingProducts = ({ isMobile = false }) => {
   const { darkMode } = useContext(ThemeContext);

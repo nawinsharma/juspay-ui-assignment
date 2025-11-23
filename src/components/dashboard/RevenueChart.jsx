@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 import darkGraph from '../../assets/dark-graph.svg';
 import lightGraph from '../../assets/light-graph.svg';
 

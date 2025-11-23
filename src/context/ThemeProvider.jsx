@@ -1,14 +1,5 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
-
-export const ThemeContext = createContext();
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-};
+import React, { useState, useEffect, useCallback } from 'react';
+import { ThemeContext } from './ThemeContext';
 
 const ThemeProvider = ({ children }) => {
   const getInitialTheme = () => {

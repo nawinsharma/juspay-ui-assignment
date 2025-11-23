@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const PageSkeleton = () => {
   const { darkMode } = useContext(ThemeContext);

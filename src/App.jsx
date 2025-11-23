@@ -2,7 +2,8 @@ import React, { useContext, useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Header from './components/layout/Header';
-import ThemeProvider, { ThemeContext } from './context/ThemeProvider';
+import ThemeProvider from './context/ThemeProvider';
+import { ThemeContext } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
 import { SearchProvider } from './context/SearchContext';
 import ErrorBoundary from './components/common/ErrorBoundary';

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 import {
   BarChart3, FolderOpen, User, CreditCard, Globe, FileText, MessageSquare, ChevronDown, ChevronRight, ShoppingBag, GraduationCap, Building, ChartPie, FolderClosed, BookOpen, ContactRound, Users, MessagesSquare, X, Megaphone, Users2
 } from 'lucide-react';

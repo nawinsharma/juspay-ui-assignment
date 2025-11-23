@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const StatCard = ({ title, value, trend, change, isMobile }) => {
   const { darkMode } = useContext(ThemeContext);

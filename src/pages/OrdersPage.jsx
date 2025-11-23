@@ -19,7 +19,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { ThemeContext } from "../context/ThemeProvider";
+import { ThemeContext } from "../context/ThemeContext";
 import { useToast } from "../hooks/useToast";
 import {
   Search,

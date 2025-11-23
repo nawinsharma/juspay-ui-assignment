@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Bell, Search, Notebook, SunMedium, Moon, History, Star, X, Check, Trash2, Menu, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
-import { ThemeContext } from '../../context/ThemeProvider';
+import { ThemeContext } from '../../context/ThemeContext';
 import { useToast } from '../../hooks/useToast';
 import { useSearch } from '../../context/SearchContext';
 const PortalTooltip = ({ anchorRef, visible, text }) => {
