@@ -118,6 +118,13 @@ const Header = ({
 
   const [hoverTooltip, setHoverTooltip] = useState(null);
 
+  // Reset theme button background when theme changes
+  useEffect(() => {
+    if (themeButtonRef.current) {
+      themeButtonRef.current.style.backgroundColor = '';
+    }
+  }, [isDarkMode]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -405,9 +412,11 @@ const Header = ({
               }}
               onMouseLeave={(e) => {
                 onLeave();
-                if (isDarkMode) {
-                  e.currentTarget.style.backgroundColor = '';
-                }
+                // Always clear background on mouse leave, regardless of theme
+                e.currentTarget.style.backgroundColor = '';
+              }}
+              style={{
+                backgroundColor: 'transparent',
               }}
               className={`p-2 rounded-lg transition-all duration-200 relative ${isDarkMode ? 'text-yellow-400 hover:text-yellow-300' : 'text-gray-500 hover:text-blue-500 hover:bg-gray-100'}`}
             >

@@ -1,5 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 
 export const ThemeContext = createContext();
 
@@ -18,6 +17,7 @@ const ThemeProvider = ({ children }) => {
       if (savedTheme) {
         return savedTheme === 'dark';
       }
+      // Check system preference
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     return false;
@@ -25,17 +25,48 @@ const ThemeProvider = ({ children }) => {
 
   const [darkMode, setDarkMode] = useState(getInitialTheme);
 
+  // Listen for system theme changes
   useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    if (typeof window === 'undefined') return;
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      // Only update if user hasn't manually set a preference
+      const savedTheme = localStorage.getItem('theme');
+      if (!savedTheme) {
+        setDarkMode(e.matches);
+      }
+    };
+
+    // Modern browsers
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    } 
+    // Fallback for older browsers
+    else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handleChange);
+      return () => mediaQuery.removeListener(handleChange);
+    }
+  }, []);
+
+  // Apply theme changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const theme = darkMode ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
 
     const root = document.documentElement;
     
+    // Toggle dark class for Tailwind dark mode (shadcn/ui compatible)
     if (darkMode) {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
 
+    // Set custom theme variables for backward compatibility
     root.style.setProperty('--theme-bg', darkMode ? '#1C1C1C' : '#ffffff');
     root.style.setProperty('--theme-surface', darkMode ? '#282828' : '#ffffff');
     root.style.setProperty('--theme-card-bg', darkMode ? '#282828' : '#F7F9FB');
@@ -48,14 +79,27 @@ const ThemeProvider = ({ children }) => {
     root.style.setProperty('--theme-shadow', darkMode ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)');
   }, [darkMode]);
 
-  const toggleTheme = () => {
-    setDarkMode(prev => !prev);
-  };
+  const toggleTheme = useCallback(() => {
+    setDarkMode(prev => {
+      const newTheme = !prev;
+      // Mark that user has manually set preference
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+      return newTheme;
+    });
+  }, []);
+
+  const setTheme = useCallback((theme) => {
+    const isDark = theme === 'dark';
+    setDarkMode(isDark);
+    localStorage.setItem('theme', theme);
+  }, []);
 
   const value = {
     darkMode,
     isDarkMode: darkMode,
+    theme: darkMode ? 'dark' : 'light',
     toggleTheme,
+    setTheme,
   };
 
   return (
