@@ -477,7 +477,7 @@ const Header = ({
               {showNotifications && (
                 <div
                   ref={notificationRef}
-                  className={`absolute right-0 mt-2 w-80 sm:w-96 rounded-xl shadow-2xl border overflow-hidden`}
+                  className={`${isMobile ? 'fixed left-4 right-4' : 'absolute right-0'} ${isMobile ? '' : 'mt-2'} rounded-xl shadow-2xl border overflow-hidden flex flex-col`}
                   style={{
                     backgroundColor: isDarkMode ? '#1C1C1C' : '#ffffff',
                     borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
@@ -485,26 +485,28 @@ const Header = ({
                     boxShadow: isDarkMode 
                       ? '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2)' 
                       : '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                    maxHeight: '28rem'
+                    maxHeight: isMobile ? 'calc(100vh - 120px)' : '28rem',
+                    width: isMobile ? 'auto' : undefined,
+                    ...(isMobile ? { top: headerHeight } : {})
                   }}
                 >
                   {/* Header */}
                   <div 
-                    className={`px-5 py-4 border-b`} 
+                    className={`px-3 sm:px-5 py-3 sm:py-4 border-b flex-shrink-0`} 
                     style={{ 
                       borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
                       background: isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
                     }}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <Bell className={`w-5 h-5 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
-                        <h3 style={{ fontWeight: 700, fontSize: 16, color: isDarkMode ? '#fff' : '#111827' }}>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center space-x-2 min-w-0 flex-1">
+                        <Bell className={`w-5 h-5 flex-shrink-0 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+                        <h3 style={{ fontWeight: 700, fontSize: isMobile ? 14 : 16, color: isDarkMode ? '#fff' : '#111827' }} className="truncate">
                           Notifications
                         </h3>
                         {unreadCount > 0 && (
                           <span 
-                            className="px-2 py-0.5 rounded-full text-xs font-semibold"
+                            className="px-2 py-0.5 rounded-full text-xs font-semibold flex-shrink-0"
                             style={{
                               backgroundColor: isDarkMode ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)',
                               color: isDarkMode ? '#60a5fa' : '#2563eb'
@@ -514,22 +516,22 @@ const Header = ({
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                         {unreadCount > 0 && (
                           <button 
                             onClick={markAllAsRead} 
-                            className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105"
+                            className="px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105 whitespace-nowrap"
                             style={{ 
                               backgroundColor: isDarkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)',
                               color: isDarkMode ? '#60a5fa' : '#2563eb'
                             }}
                           >
-                            Mark all read
+                            {isMobile ? 'Mark all' : 'Mark all read'}
                           </button>
                         )}
                         <button 
                           onClick={() => setShowNotifications(false)} 
-                          className={`p-1.5 rounded-lg transition-all duration-200 hover:scale-110`}
+                          className={`p-1.5 rounded-lg transition-all duration-200 hover:scale-110 flex-shrink-0`}
                           style={{ 
                             color: isDarkMode ? '#9ca3af' : '#6b7280',
                             backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
@@ -543,8 +545,8 @@ const Header = ({
 
                   {/* Notifications List */}
                   <div 
-                    className="overflow-y-auto scrollbar-hide"
-                    style={{ maxHeight: '20rem' }}
+                    className="overflow-y-auto scrollbar-hide flex-1 min-h-0"
+                    style={{ maxHeight: isMobile ? 'calc(100vh - 240px)' : '20rem' }}
                   >
                     {notifications.length === 0 ? (
                       <div className={`p-12 text-center`} style={{ color: isDarkMode ? '#9CA3AF' : '#6b7280' }}>
@@ -563,7 +565,7 @@ const Header = ({
                       notifications.map((notification) => (
                         <div 
                           key={notification.id} 
-                          className={`px-5 py-4 border-b transition-all duration-200 relative group hover:shadow-sm`}
+                          className={`px-3 sm:px-5 py-3 sm:py-4 border-b transition-all duration-200 relative group hover:shadow-sm`}
                           style={{ 
                             borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)',
                             backgroundColor: !notification.read 
@@ -656,7 +658,7 @@ const Header = ({
                   {/* Footer */}
                   {notifications.length > 0 && (
                     <div 
-                      className={`px-5 py-3 border-t`} 
+                      className={`px-3 sm:px-5 py-3 border-t flex-shrink-0`} 
                       style={{ 
                         borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
                         background: isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
@@ -664,7 +666,7 @@ const Header = ({
                     >
                       <button 
                         onClick={clearAllNotifications} 
-                        className={`w-full text-center text-sm py-2.5 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02]`}
+                        className={`w-full text-center text-xs sm:text-sm py-2.5 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02]`}
                         style={{ 
                           color: isDarkMode ? '#fb7185' : '#dc2626',
                           backgroundColor: isDarkMode ? 'rgba(251, 113, 133, 0.1)' : 'rgba(220, 38, 38, 0.1)'
