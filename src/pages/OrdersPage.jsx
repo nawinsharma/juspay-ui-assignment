@@ -462,10 +462,36 @@ const OrdersPage = ({ isMobile: propIsMobile }) => {
             bgcolor: isDarkMode ? colors.background : colors.cardBackground, 
             border: "none",
             borderBottom: `1px solid ${colors.border}`,
-            overflow: "hidden"
+            overflowX: "auto",
+            overflowY: "auto",
+            maxHeight: isMobile ? "calc(100vh - 300px)" : "none",
+            maxWidth: "100%",
+            "&::-webkit-scrollbar": {
+              height: isMobile ? 8 : 12,
+              width: isMobile ? 8 : 12,
+            },
+            "&::-webkit-scrollbar-track": {
+              background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+              borderRadius: 4,
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: isDarkMode ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
+              borderRadius: 4,
+              "&:hover": {
+                background: isDarkMode ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
+              },
+            },
           }}
         >
-          <Table stickyHeader size="small" sx={{ bgcolor: isDarkMode ? colors.background : colors.cardBackground, "& .MuiTable-root": { bgcolor: isDarkMode ? colors.background : colors.cardBackground } }}>
+          <Table 
+            stickyHeader 
+            size="small" 
+            sx={{ 
+              bgcolor: isDarkMode ? colors.background : colors.cardBackground, 
+              "& .MuiTable-root": { bgcolor: isDarkMode ? colors.background : colors.cardBackground },
+              minWidth: isMobile ? 800 : "auto",
+            }}
+          >
             <TableHead>
               <TableRow sx={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: isDarkMode ? colors.background : colors.cardBackground }}>
                 <TableCell padding="checkbox" sx={{ py: 0.75, borderBottom: `2px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : colors.border}`, bgcolor: isDarkMode ? colors.background : colors.cardBackground }}>
