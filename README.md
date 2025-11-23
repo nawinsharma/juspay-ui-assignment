@@ -24,10 +24,9 @@ This project is a fully responsive SaaS dashboard built with React, implementing
 
 - **React js** - UI library
 - **Tailwind CSS** - Utility-first CSS framework for responsive design
-- **Framer Motion** - Smooth animations and transitions
 - **Recharts** - Data visualization and charts
 - **React Router v6** - Client-side routing
-- **ESLint & Prettier** - Code quality and formatting
+- **ESLint** - Code quality and linting
 
 ## 🚀 Getting Started
 
@@ -42,8 +41,8 @@ This project is a fully responsive SaaS dashboard built with React, implementing
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/juspay-dashboard.git
-cd juspay-dashboard
+git clone https://github.com/nawinsharma/juspay-ui-assignment.git
+cd juspay-ui-assignment
 ```
 
 2. **Install dependencies**
@@ -93,7 +92,7 @@ This creates an optimized production build in the `dist/` directory.
 ### 2. **Styling Approach**
 - **Tailwind CSS**: Chosen for rapid development, consistency, and responsive design
 - **CSS Modules**: Used for component-specific styles to avoid conflicts
-- **Custom Animations**: Leveraged Framer Motion for smooth, performant transitions
+- **Custom Animations**: CSS transitions and Tailwind animations for smooth, performant effects
 - **Design Tokens**: Centralized colors, spacing, and typography in Tailwind config
 
 ### 3. **State Management**
@@ -165,6 +164,6 @@ This project is private and for evaluation purposes only.
 ## 👤 Author
 
 - GitHub: [@nawinsharma](https://github.com/nawinsharma)
-- LinkedIn: [ LinkedIn](https://www.linkedin.com/in/nawin-sharma-83009825a)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/nawin-sharma-83009825a)
 - Email: nawinsharma60@gmail.com
 - Website: https://nawin.xyz
