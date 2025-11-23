@@ -420,61 +420,175 @@ const Header = ({
               {showNotifications && (
                 <div
                   ref={notificationRef}
-                  className={`absolute right-0 mt-2 w-80 sm:w-96 rounded-lg shadow-lg border max-h-80 sm:max-h-96 overflow-hidden`}
+                  className={`absolute right-0 mt-2 w-80 sm:w-96 rounded-xl shadow-2xl border overflow-hidden`}
                   style={{
                     backgroundColor: isDarkMode ? '#1C1C1C' : '#ffffff',
-                    borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : undefined,
-                    zIndex: 60 // Higher than mobile overlays
+                    borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+                    zIndex: 60, // Higher than mobile overlays
+                    boxShadow: isDarkMode 
+                      ? '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2)' 
+                      : '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    maxHeight: '28rem'
                   }}
                 >
-                  <div className={`p-4 border-b`} style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : undefined }}>
+                  {/* Header */}
+                  <div 
+                    className={`px-5 py-4 border-b`} 
+                    style={{ 
+                      borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+                      background: isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+                    }}
+                  >
                     <div className="flex items-center justify-between">
-                      <h3 style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827' }}>
-                        Notifications {unreadCount > 0 && `(${unreadCount})`}
-                      </h3>
+                      <div className="flex items-center space-x-2">
+                        <Bell className={`w-5 h-5 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+                        <h3 style={{ fontWeight: 700, fontSize: 16, color: isDarkMode ? '#fff' : '#111827' }}>
+                          Notifications
+                        </h3>
+                        {unreadCount > 0 && (
+                          <span 
+                            className="px-2 py-0.5 rounded-full text-xs font-semibold"
+                            style={{
+                              backgroundColor: isDarkMode ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)',
+                              color: isDarkMode ? '#60a5fa' : '#2563eb'
+                            }}
+                          >
+                            {unreadCount}
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center space-x-2">
                         {unreadCount > 0 && (
-                          <button onClick={markAllAsRead} style={{ fontSize: 12, color: isDarkMode ? '#90caf9' : '#1976d2' }} className="px-2 py-1 rounded">
+                          <button 
+                            onClick={markAllAsRead} 
+                            className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105"
+                            style={{ 
+                              backgroundColor: isDarkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)',
+                              color: isDarkMode ? '#60a5fa' : '#2563eb'
+                            }}
+                          >
                             Mark all read
                           </button>
                         )}
-                        <button onClick={() => setShowNotifications(false)} className={`p-1 rounded transition-colors`} style={{ color: isDarkMode ? '#cfcfcf' : '#6b7280' }}>
+                        <button 
+                          onClick={() => setShowNotifications(false)} 
+                          className={`p-1.5 rounded-lg transition-all duration-200 hover:scale-110`}
+                          style={{ 
+                            color: isDarkMode ? '#9ca3af' : '#6b7280',
+                            backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+                          }}
+                        >
                           <X className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
                   </div>
 
-                  <div className="max-h-80 overflow-y-auto">
+                  {/* Notifications List */}
+                  <div 
+                    className="overflow-y-auto"
+                    style={{ maxHeight: '20rem' }}
+                  >
                     {notifications.length === 0 ? (
-                      <div className={`p-8 text-center`} style={{ color: isDarkMode ? '#9CA3AF' : '#6b7280' }}>
-                        <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                        <p>No notifications</p>
+                      <div className={`p-12 text-center`} style={{ color: isDarkMode ? '#9CA3AF' : '#6b7280' }}>
+                        <div 
+                          className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
+                          style={{
+                            backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+                          }}
+                        >
+                          <Bell className="w-8 h-8 opacity-50" />
+                        </div>
+                        <p className="font-medium text-sm">No notifications</p>
+                        <p className="text-xs mt-1 opacity-75">You're all caught up!</p>
                       </div>
                     ) : (
                       notifications.map((notification) => (
-                        <div key={notification.id} className={`p-4 border-b transition-colors relative`} style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : undefined, backgroundColor: !notification.read && isDarkMode ? '#1C1C1C' : undefined }}>
+                        <div 
+                          key={notification.id} 
+                          className={`px-5 py-4 border-b transition-all duration-200 relative group hover:shadow-sm`}
+                          style={{ 
+                            borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)',
+                            backgroundColor: !notification.read 
+                              ? (isDarkMode ? 'rgba(59, 130, 246, 0.05)' : 'rgba(59, 130, 246, 0.03)')
+                              : 'transparent'
+                          }}
+                        >
                           <div className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 text-lg">{getNotificationIcon(notification.type)}</div>
+                            {/* Icon Container */}
+                            <div 
+                              className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-lg"
+                              style={{
+                                backgroundColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'
+                              }}
+                            >
+                              {getNotificationIcon(notification.type)}
+                            </div>
+                            
+                            {/* Content */}
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                  <p style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827' }}>{notification.title}</p>
-                                  <p style={{ color: isDarkMode ? '#cfcfcf' : '#6b7280', marginTop: 6 }}>{notification.message}</p>
-                                  <p style={{ color: isDarkMode ? '#9CA3AF' : '#9CA3AF', marginTop: 6, fontSize: 12 }}>{notification.time}</p>
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <p style={{ fontWeight: 600, fontSize: 14, color: isDarkMode ? '#fff' : '#111827' }}>
+                                      {notification.title}
+                                    </p>
+                                    {!notification.read && (
+                                      <div 
+                                        className="w-2 h-2 rounded-full flex-shrink-0"
+                                        style={{ backgroundColor: isDarkMode ? '#60a5fa' : '#2563eb' }}
+                                      />
+                                    )}
+                                  </div>
+                                  <p 
+                                    style={{ 
+                                      color: isDarkMode ? '#cfcfcf' : '#6b7280', 
+                                      fontSize: 13,
+                                      lineHeight: '1.5',
+                                      marginBottom: 4
+                                    }}
+                                  >
+                                    {notification.message}
+                                  </p>
+                                  <p 
+                                    style={{ 
+                                      color: isDarkMode ? '#9CA3AF' : '#9CA3AF', 
+                                      fontSize: 11,
+                                      fontWeight: 500
+                                    }}
+                                  >
+                                    {notification.time}
+                                  </p>
                                 </div>
-                                <div className="flex items-center space-x-1 ml-2">
+                                
+                                {/* Action Buttons */}
+                                <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                   {!notification.read && (
-                                    <button onClick={() => markAsRead(notification.id)} className={`p-1 rounded transition-colors`} title="Mark as read" style={{ color: isDarkMode ? '#34d399' : '#10b981' }}>
-                                      <Check className="w-3 h-3" />
+                                    <button 
+                                      onClick={() => markAsRead(notification.id)} 
+                                      className={`p-2 rounded-lg transition-all duration-200 hover:scale-110`}
+                                      title="Mark as read"
+                                      style={{ 
+                                        color: isDarkMode ? '#34d399' : '#10b981',
+                                        backgroundColor: isDarkMode ? 'rgba(52, 211, 153, 0.1)' : 'rgba(16, 185, 129, 0.1)'
+                                      }}
+                                    >
+                                      <Check className="w-4 h-4" />
                                     </button>
                                   )}
-                                  <button onClick={() => deleteNotification(notification.id)} className={`p-1 rounded transition-colors`} title="Delete notification" style={{ color: isDarkMode ? '#fb7185' : '#dc2626' }}>
-                                    <Trash2 className="w-3 h-3" />
+                                  <button 
+                                    onClick={() => deleteNotification(notification.id)} 
+                                    className={`p-2 rounded-lg transition-all duration-200 hover:scale-110`}
+                                    title="Delete notification"
+                                    style={{ 
+                                      color: isDarkMode ? '#fb7185' : '#dc2626',
+                                      backgroundColor: isDarkMode ? 'rgba(251, 113, 133, 0.1)' : 'rgba(220, 38, 38, 0.1)'
+                                    }}
+                                  >
+                                    <Trash2 className="w-4 h-4" />
                                   </button>
                                 </div>
                               </div>
-                              {!notification.read && (<div className="w-2 h-2 bg-blue-500 rounded-full absolute left-2 top-4"></div>)}
                             </div>
                           </div>
                         </div>
@@ -482,9 +596,23 @@ const Header = ({
                     )}
                   </div>
 
+                  {/* Footer */}
                   {notifications.length > 0 && (
-                    <div className={`p-3 border-t`} style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.04)' : undefined }}>
-                      <button onClick={clearAllNotifications} className={`w-full text-center text-sm py-2 rounded transition-colors`} style={{ color: isDarkMode ? '#fb7185' : '#dc2626' }}>
+                    <div 
+                      className={`px-5 py-3 border-t`} 
+                      style={{ 
+                        borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+                        background: isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+                      }}
+                    >
+                      <button 
+                        onClick={clearAllNotifications} 
+                        className={`w-full text-center text-sm py-2.5 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02]`}
+                        style={{ 
+                          color: isDarkMode ? '#fb7185' : '#dc2626',
+                          backgroundColor: isDarkMode ? 'rgba(251, 113, 133, 0.1)' : 'rgba(220, 38, 38, 0.1)'
+                        }}
+                      >
                         Clear all notifications
                       </button>
                     </div>
