@@ -171,17 +171,6 @@ const Header = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [clearSearch]);
 
-  const handleRefresh = () => {
-    const refreshIcon = document.querySelector('.refresh-icon');
-    if (refreshIcon) {
-      refreshIcon.style.transform = 'rotate(360deg)';
-    }
-    // Set flag in localStorage to show toast after reload
-    localStorage.setItem('showRefreshToast', 'true');
-    setTimeout(() => {
-      window.location.reload();
-    }, 150);
-  };
 
   const handleFavoriteToggle = () => {
     const newFavoriteState = !isFavorite;
@@ -389,10 +378,6 @@ const Header = ({
             {/* Refresh Button - Hide on mobile to save space */}
             {!isMobile && (
               <button
-                onClick={handleRefresh}
-                ref={refreshButtonRef}
-                onMouseEnter={onEnter('refresh')}
-                onMouseLeave={onLeave}
                 className={`p-2 rounded-lg transition-all duration-200 relative ${isDarkMode ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'}`}
               >
                 <History className="w-5 h-5 refresh-icon transition-transform duration-300" style={{ transformOrigin: 'center' }} />

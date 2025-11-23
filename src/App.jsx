@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, useEffect, Suspense, lazy } from 'react';
+import React, { useContext, useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Header from './components/layout/Header.jsx';
@@ -287,7 +287,6 @@ const AppContent = () => {
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [leftSidebarVisible, setLeftSidebarVisible] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
   const [rightSidebarVisible, setRightSidebarVisible] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1280 : true);
-  const [dashboardRefreshKey, setDashboardRefreshKey] = useState(0);
 
   // Handle window resize
   useEffect(() => {
@@ -335,10 +334,6 @@ const AppContent = () => {
   const toggleLeftSidebar = () => setLeftSidebarVisible(prev => !prev);
   const toggleRightSidebar = () => setRightSidebarVisible(prev => !prev);
 
-  // Dashboard refresh
-  const handleDashboardRefresh = useCallback(() => {
-    setDashboardRefreshKey(prev => prev + 1);
-  }, []);
 
   // Close sidebars when clicking overlay on mobile
   const handleOverlayClick = () => {
@@ -424,7 +419,6 @@ const AppContent = () => {
             rightSidebarVisible={rightSidebarVisible}
             toggleLeftSidebar={toggleLeftSidebar}
             toggleRightSidebar={toggleRightSidebar}
-            onRefreshDashboard={handleDashboardRefresh}
             isMobile={windowWidth < 1024}
             isTablet={windowWidth < 1280}
           />
@@ -452,7 +446,6 @@ const AppContent = () => {
                         path="/"
                         element={
                           <DashboardPage
-                            refreshKey={dashboardRefreshKey}
                             isMobile={windowWidth < 768}
                             isTablet={windowWidth < 1024}
                           />
@@ -473,7 +466,6 @@ const AppContent = () => {
                         path="/projects"
                         element={
                           <DashboardPage
-                            refreshKey={dashboardRefreshKey}
                             isMobile={windowWidth < 768}
                             isTablet={windowWidth < 1024}
                           />
